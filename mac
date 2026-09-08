@@ -1,174 +1,62 @@
 #!/usr/bin/env bash
 #
-# AvalonLotus Mac Setup — bootstrap a new Mac in one command.
+# avalonlotus.com/mac — bootstrap a Mac into AvalonLotus Demesne.
 #
-# Usage:
-#   Recommended (verify-then-run):
-#     git clone https://github.com/AvalonLotus/AvalonLotus-Mac-Setup.git "$HOME/AvalonLotus Mac-Setup"
-#     bash "$HOME/AvalonLotus Mac-Setup/install.sh"
+# This file used to be a copy of install.sh and drifted 258 lines behind it,
+# so a fresh Mac running the one-liner got an installer from months earlier.
+# It fetches the real one now and never goes stale again.
 #
-#   One-liner (faster but YOU MUST trust the source):
-#     curl -fsSL avalonlotus.com/mac | bash
+# Run it as:
+#     bash <(curl -fsSL avalonlotus.com/mac)
 #
-# What it does:
-#   1. Installs Homebrew + git + jq if missing
-#   2. Clones (or pulls) all your AvalonLotus repos
-#   3. Runs each repo's setup script (git-autosync, Obsidian Vault, etc.)
-#   4. Reports what worked vs failed at the end
+# not `curl … | bash` — piping hands the script itself to stdin, and gh's
+# sign-in prompt then has nothing to read from.
 #
-# Idempotent — safe to re-run. Re-running pulls the latest of each repo
-# and re-runs its setup. Setup scripts themselves should be idempotent
-# (Homebrew, pip, font installers all are).
+set -euo pipefail
 
-set -uo pipefail   # NOT -e — we want to continue past individual repo failures
+REPO_URL="https://github.com/AvalonLotus/AvalonLotus-Demesne.git"
+REPO_DIR="$HOME/AvalonLotus Demesne"
 
-GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; DIM='\033[2m'; NC='\033[0m'
+GREEN='\033[0;32m'; YELLOW='\033[1;33m'; NC='\033[0m'
 log()  { printf "${GREEN}▶${NC} %s\n" "$*"; }
-ok()   { printf "  ${GREEN}✓${NC} %s\n" "$*"; }
-warn() { printf "  ${YELLOW}!${NC} %s\n" "$*"; }
-fail() { printf "  ${RED}✗${NC} %s\n" "$*"; }
-dim()  { printf "${DIM}  %s${NC}\n" "$*"; }
+warn() { printf "${YELLOW}!${NC} %s\n" "$*"; }
 
-# ─── Prereqs ──────────────────────────────────────────────────────────
-log "Checking prereqs"
-if ! command -v brew >/dev/null 2>&1; then
-  log "Installing Homebrew..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  # Make brew available in this shell
-  if [ -x /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [ -x /usr/local/bin/brew ]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-  fi
+if ! command -v git >/dev/null 2>&1; then
+  log "Installing the Xcode command line tools (git comes with them)"
+  xcode-select --install 2>/dev/null || true
+  warn "Re-run this once the installer window finishes."
+  exit 1
 fi
-ok "Homebrew at $(brew --prefix)"
-command -v git >/dev/null 2>&1 || brew install git
-ok "git $(git --version | awk '{print $3}')"
-command -v jq  >/dev/null 2>&1 || brew install jq
-ok "jq $(jq --version)"
 
-# ─── Baseline apps & CLI tools (idempotent — brew skips if already present) ───
-# Pinned to AvalonLotus's daily-driver set. Each line = either a brew formula
-# (CLI tool) or a cask (.app in /Applications). To remove an item, just
-# delete its line; brew install is no-op if the cask/formula is already there.
-log "Installing baseline tools (CLI + macOS apps)"
-
-# Hang-detection wrapper. macOS doesn't ship GNU `timeout` so we DIY with a
-# subshell + sleep watchdog. If brew install hangs >5min on a single package
-# (slow network, stuck on EULA prompt, sudo password expected, etc) the
-# watchdog kills it instead of blocking the whole bootstrap for hours.
-# 2026-05-26: added after Mac 2 install.sh sat zombie for hours on docker cask.
-HANG_LIMIT=300  # seconds — generous enough for big downloads like Docker/OBS
-run_with_timeout() {
-  local label="$1"; shift
-  local start=$(date +%s)
-  ("$@" 2>&1 | tail -3) &
-  local pid=$!
-  (sleep "$HANG_LIMIT" && kill -0 "$pid" 2>/dev/null && {
-    warn "    $label exceeded ${HANG_LIMIT}s — killing, continuing"
-    kill -9 "$pid" 2>/dev/null
-    pkill -9 -P "$pid" 2>/dev/null
-  }) &
-  local watchdog=$!
-  wait "$pid" 2>/dev/null
-  local rc=$?
-  kill "$watchdog" 2>/dev/null
-  return $rc
-}
-
-# CLI formulae — small, fast, mostly invisible
-FORMULAE="gh mas"
-for tool in $FORMULAE; do
-  if brew list "$tool" >/dev/null 2>&1; then
-    dim "  ✓ $tool (formula) already installed"
-  else
-    log "  brew install $tool"
-    run_with_timeout "$tool" brew install "$tool" || warn "    $tool install failed (continue)"
-  fi
-done
-
-# GUI apps via cask
-# GFN essentials:  docker
-# Daily drivers:   google-chrome, visual-studio-code, obsidian, claude
-# Specialised:     obs, utm, codex
-CASKS="docker google-chrome visual-studio-code obsidian claude obs utm codex"
-for cask in $CASKS; do
-  if brew list --cask "$cask" >/dev/null 2>&1; then
-    dim "  ✓ $cask (cask) already installed"
-  elif [ "$cask" = "docker" ] && [ -d "/Applications/Docker.app" ]; then
-    dim "  ✓ docker.app exists (non-brew install — skipping)"
-  elif [ "$cask" = "obsidian" ] && [ -d "/Applications/Obsidian.app" ]; then
-    dim "  ✓ obsidian.app exists (non-brew install — skipping)"
-  elif [ "$cask" = "claude" ] && [ -d "/Applications/Claude.app" ]; then
-    dim "  ✓ claude.app exists (non-brew install — skipping)"
-  else
-    log "  brew install --cask $cask"
-    run_with_timeout "$cask" brew install --cask "$cask" || warn "    $cask install failed (continue)"
-  fi
-done
-
-ok "baseline tools done"
-
-# ─── Repo manifest ────────────────────────────────────────────────────
-# Add new repos here. Format per row: <repo_url>|<local_path>|<setup_cmd>
-# setup_cmd is run from the repo's root directory. Empty = no setup.
-REPOS="
-https://github.com/AvalonLotus/AvalonLotus.com.git|$HOME/AvalonLotus.com|
-https://github.com/AvalonLotus/Global-Finance-News.git|$HOME/AvalonLotus Projects/Global Finance News|bash scripts/install-git-autosync.sh
-https://github.com/AvalonLotus/AvalonLotus-Obsidian.git|$HOME/AvalonLotus Obsidian|./setup.sh
-https://github.com/AvalonLotus/Vansaintstone-Obsidian.git|$HOME/Vansaintstone Obsidian|./setup.sh
-https://github.com/AvalonLotus/Lossvia-Obsidian.git|$HOME/Lossvia Obsidian|./setup.sh
-https://github.com/AvalonLotus/Generative-Skill.git|$HOME/Generative Skill|./install.sh
-"
-
-# ─── Process each repo ────────────────────────────────────────────────
-SUCCEEDED=""
-FAILED=""
-SKIPPED=""
-
-echo "$REPOS" | while IFS='|' read -r url path setup; do
-  [ -z "$url" ] && continue
-  name=$(basename "$path")
-  echo
-  log "[$name]"
-
-  if [ -d "$path/.git" ]; then
-    dim "exists at $path — pulling"
-    if ! (cd "$path" && git pull --rebase --autostash --quiet 2>&1 | tail -3); then
-      fail "$name: pull failed"
-      continue
-    fi
-    ok "pulled"
-  else
-    dim "cloning into $path"
-    mkdir -p "$(dirname "$path")"
-    if ! git clone --quiet "$url" "$path" 2>&1; then
-      fail "$name: clone failed"
-      continue
-    fi
-    ok "cloned"
-  fi
-
-  if [ -n "$setup" ]; then
-    dim "running setup: $setup"
-    if (cd "$path" && eval "$setup"); then
-      ok "$name setup OK"
+if [ -d "$REPO_DIR/.git" ]; then
+  log "Updating $REPO_DIR"
+  git -C "$REPO_DIR" pull --rebase --autostash --quiet || warn "pull failed — using the local copy"
+else
+  # The repo is private: it carries the global operating rules and the git
+  # identity. Cloning it needs credentials, and gh is the way this account
+  # supplies them everywhere else.
+  if ! command -v gh >/dev/null 2>&1; then
+    if command -v brew >/dev/null 2>&1; then
+      log "Installing gh"
+      brew install gh
     else
-      fail "$name setup failed (clone OK, just setup)"
+      log "Installing Homebrew first"
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      for p in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+        [ -x "$p" ] && eval "$("$p" shellenv)"
+      done
+      brew install gh
     fi
-  else
-    dim "(no setup script, repo is just cloned)"
   fi
-done
 
-echo
-log "All done. See above for any ✗ failures."
-echo
-echo "What's installed:"
-echo "$REPOS" | while IFS='|' read -r url path setup; do
-  [ -z "$url" ] && continue
-  [ -d "$path/.git" ] && echo "  • $(basename "$path")  → $path"
-done
-echo
-echo "If you re-run this script, it will pull the latest of each repo and"
-echo "re-run their setup. All setup scripts are designed to be idempotent."
+  if ! gh auth status >/dev/null 2>&1; then
+    log "Signing in to GitHub — choose GitHub.com, HTTPS, then the browser flow"
+    gh auth login
+  fi
+
+  log "Cloning into $REPO_DIR"
+  gh repo clone AvalonLotus/AvalonLotus-Demesne "$REPO_DIR"
+fi
+
+log "Handing over to install.sh"
+exec bash "$REPO_DIR/install.sh"
