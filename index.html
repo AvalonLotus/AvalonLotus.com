@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AvalonLotus — Elevate the self · Pursue truth · Command the future</title>
+<meta name="description" content="AvalonLotus develops tools and educational content focused on financial literacy, AI-augmented productivity, and self-directed personal development.">
+<meta property="og:title" content="AvalonLotus">
+<meta property="og:description" content="Elevate the self · Pursue truth · Command the future.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://avalonlotus.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1A1A1D;
+  --navy-2: #2E2E33;
+  --red: #96202B;
+  --red-deep: #73161F;
+  --gold: #A8862F;
+  --ivory: #F3F1EA;
+  --cream: #FBFAF5;
+  --slate: #5E5E63;
+  --border: #cab683;
+  --secondary: #e6e4de;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--navy);
+  font-family: "Poppins", "Noto Sans TC", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+}
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--red); color: #fff; }
+
+.site-container { width: min(1240px, calc(100% - 72px)); margin-inline: auto; }
+.section-pad { padding: 88px 0; }
+section[id] { scroll-margin-top: 96px; }
+
+/* ---------- header ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 40;
+  border-bottom: 1px solid rgba(168, 134, 47, .35);
+  background: rgba(247, 243, 234, .96);
+  backdrop-filter: blur(14px);
+}
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 16px 0; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-mark {
+  width: 42px; height: 42px; flex: none; border-radius: 50%;
+  border: 2px solid var(--navy); background: var(--navy);
+  display: grid; place-items: center;
+  color: var(--gold); font-weight: 700; font-size: 17px; letter-spacing: .5px;
+}
+.brand-text { display: flex; flex-direction: column; gap: 3px; }
+.brand-word { font-size: 20px; font-weight: 800; letter-spacing: 1.4px; line-height: 1; }
+.brand-red-rule { position: relative; height: 2px; background: var(--red); }
+.brand-red-rule::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 6px; height: 6px; background: var(--gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.brand-name { font-size: 8.5px; font-weight: 600; letter-spacing: 1.5px; color: var(--slate); text-transform: uppercase; }
+.site-nav { display: flex; align-items: center; gap: 26px; flex-wrap: wrap; }
+.site-nav a { font-size: 14px; font-weight: 500; }
+.site-nav a:hover { color: var(--red); }
+.portal-button {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy); color: var(--cream);
+  padding: 10px 18px; font-size: 13px; font-weight: 600; letter-spacing: .3px;
+  border-radius: 2px;
+}
+.portal-button:hover { background: var(--navy-2); }
+
+/* ---------- hero ---------- */
+.hero-section { position: relative; overflow: hidden; padding: 96px 0 0; }
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(168, 134, 47, .16) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(168, 134, 47, .16) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: linear-gradient(90deg, transparent 45%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 45%, #000 100%);
+}
+.hero-orbits { position: absolute; right: -160px; top: -80px; pointer-events: none; }
+.hero-orbits span {
+  position: absolute; border: 1px solid rgba(168, 134, 47, .28); border-radius: 50%;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+}
+.hero-orbits span:nth-child(1) { width: 320px; height: 320px; }
+.hero-orbits span:nth-child(2) { width: 480px; height: 480px; }
+.hero-orbits span:nth-child(3) { width: 640px; height: 640px; }
+.hero-inner { position: relative; max-width: 760px; padding-bottom: 72px; }
+.status-badge {
+  display: inline-flex; align-items: center; gap: 9px;
+  border: 1px solid var(--border); border-radius: 999px;
+  padding: 7px 16px; font-size: 11px; font-weight: 600; letter-spacing: 1.6px; text-transform: uppercase;
+}
+.status-badge::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red); }
+.eyebrow { margin: 28px 0 14px; font-size: 12px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--red); }
+.hero-inner h1 { margin: 0; font-size: clamp(36px, 5.2vw, 60px); font-weight: 800; line-height: 1.08; letter-spacing: -.5px; }
+.hero-zh { margin: 18px 0 0; font-size: clamp(15px, 1.7vw, 19px); font-weight: 500; letter-spacing: 6px; color: var(--slate); }
+.hero-lead { margin: 22px 0 0; font-size: 17px; color: var(--slate); max-width: 640px; }
+.hero-lead a { color: var(--red); font-weight: 600; border-bottom: 1px solid rgba(150, 32, 43, .4); }
+
+.hero-red-band { position: relative; background: linear-gradient(90deg, var(--red-deep), var(--red) 62%, #a82934); }
+.hero-red-band .site-container { display: flex; flex-wrap: wrap; gap: 14px; padding-block: 26px; }
+.gold-rule { height: 5px; background: var(--gold); }
+.primary-cta, .secondary-cta {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 12px 22px; font-size: 14px; font-weight: 600; border-radius: 2px;
+}
+.primary-cta { background: var(--cream); color: var(--navy); }
+.primary-cta:hover { background: #fff; }
+.secondary-cta { border: 1px solid rgba(255, 255, 255, .75); color: #fff; }
+.secondary-cta:hover { background: rgba(255, 255, 255, .12); }
+
+/* ---------- dark sections ---------- */
+.dark-section { position: relative; background: linear-gradient(150deg, var(--navy), var(--navy-2) 180%); color: var(--cream); overflow: hidden; }
+.dark-section .section-label { color: var(--red); }
+.dark-section h2 { color: var(--cream); }
+.dark-section .section-intro { color: rgba(255, 253, 246, .78); }
+.section-label { font-size: 12px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; color: var(--red); margin: 0 0 18px; }
+h2 { margin: 0; font-size: clamp(29px, 3.6vw, 44px); font-weight: 800; line-height: 1.14; letter-spacing: -.3px; }
+.section-intro { margin: 20px 0 0; max-width: 660px; color: var(--slate); font-size: 17px; }
+
+.pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 52px; }
+.pillar-card { position: relative; background: var(--cream); color: var(--navy); border: 1px solid var(--gold); padding: 30px 26px 34px; overflow: hidden; }
+.pillar-icon { width: 44px; height: 44px; border-radius: 50%; background: var(--navy); color: var(--gold); display: grid; place-items: center; font-size: 15px; font-weight: 700; }
+.pillar-card h3 { margin: 22px 0 0; font-size: 21px; font-weight: 700; }
+.pillar-zh { margin: 6px 0 0; font-size: 14px; letter-spacing: 3px; color: var(--slate); }
+.pillar-card .card-rule { width: 54px; height: 2px; background: var(--gold); margin: 16px 0 14px; }
+.pillar-card p { margin: 0; font-size: 15px; color: var(--slate); }
+.card-number { position: absolute; right: 14px; bottom: -6px; font-size: 74px; font-weight: 800; color: rgba(26, 26, 29, .07); line-height: 1; }
+
+/* ---------- about ---------- */
+.about-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 64px; align-items: center; }
+.about-lockup { display: grid; justify-items: center; gap: 14px; text-align: center; }
+.about-seal {
+  width: 148px; height: 148px; border-radius: 50%;
+  border: 3px solid var(--navy); background: var(--navy);
+  display: grid; place-items: center;
+  color: var(--gold); font-size: 44px; font-weight: 800; letter-spacing: 1px;
+  box-shadow: 0 0 0 7px rgba(168, 134, 47, .22);
+}
+.about-word { font-size: 40px; font-weight: 800; letter-spacing: 2px; line-height: 1; }
+.about-rule { width: 240px; height: 1px; background: var(--gold); position: relative; }
+.about-rule::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 8px; height: 8px; background: var(--red);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.about-full { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--slate); }
+.metric-list { margin: 34px 0 0; padding: 0; list-style: none; display: grid; gap: 20px; }
+.metric-list li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; border-top: 1px solid var(--border); padding-top: 18px; }
+.metric-list li:first-child { border-top: 0; padding-top: 0; }
+.metric-check { color: var(--red); font-weight: 700; }
+.metric-title { font-weight: 700; font-size: 16px; }
+.metric-text { font-size: 15px; color: var(--slate); }
+
+/* ---------- legal ---------- */
+.legal-band { background: linear-gradient(90deg, var(--red-deep), var(--red) 70%); color: #fff; }
+.legal-band .site-container { padding-block: 64px; }
+.legal-band h2 { color: #fff; }
+.legal-band .section-label { color: rgba(255, 255, 255, .82); }
+.legal-band p { margin: 18px 0 0; max-width: 620px; color: rgba(255, 255, 255, .9); font-size: 16px; }
+.legal-wrap { width: min(760px, calc(100% - 48px)); margin-inline: auto; padding: 88px 0 96px; }
+.legal-wrap section + section { margin-top: 72px; }
+.legal-wrap h2 { font-size: 30px; }
+.legal-wrap h3 { margin: 34px 0 8px; font-size: 17px; font-weight: 700; }
+.legal-wrap p, .legal-wrap li { font-size: 15.5px; color: #3a3a3e; }
+.legal-wrap ul { padding-left: 22px; }
+.legal-wrap li { margin-bottom: 6px; }
+.legal-wrap a { color: var(--red); border-bottom: 1px solid rgba(150, 32, 43, .4); }
+.legal-wrap .meta { margin-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 1.4px; text-transform: uppercase; color: var(--slate); }
+.legal-wrap strong { color: var(--navy); }
+
+/* ---------- footer ---------- */
+.site-footer { background: var(--cream); border-top: 5px solid var(--gold); }
+.site-footer .site-container { display: grid; justify-items: center; gap: 12px; text-align: center; padding-block: 56px; }
+.footer-word { font-size: 26px; font-weight: 800; letter-spacing: 2px; }
+.footer-rule { width: 220px; height: 1px; background: var(--gold); position: relative; }
+.footer-rule::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 7px; height: 7px; background: var(--red);
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.footer-full { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--slate); }
+.footer-links { margin-top: 8px; font-size: 14px; color: var(--slate); }
+.footer-links a { color: var(--red); font-weight: 600; }
+.footer-pillars { margin-top: 6px; font-size: 13px; letter-spacing: 5px; color: var(--slate); }
+
+@media (max-width: 1180px) {
+  .site-container { width: calc(100% - 44px); }
+  .header-inner { flex-wrap: wrap; gap: 14px; }
+  .site-nav { order: 3; width: 100%; gap: 18px; padding-top: 6px; border-top: 1px solid var(--border); }
+  .brand-name { display: none; }
+  .pillar-grid, .project-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 44px; }
+}
+@media (max-width: 860px) {
+  .section-pad { padding: 64px 0; }
+  .hero-section { padding-top: 64px; }
+  .hero-inner { padding-bottom: 52px; }
+  .pillar-grid, .project-grid { grid-template-columns: 1fr; }
+  .hero-orbits { display: none; }
+  .legal-wrap { padding: 64px 0 72px; }
+}
+@media (max-width: 560px) {
+  .site-nav { gap: 14px; }
+  .site-nav a { font-size: 13px; }
+  .hero-zh { letter-spacing: 3px; }
+  .hero-red-band .site-container { padding-block: 20px; }
+  .primary-cta, .secondary-cta { width: 100%; justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-container header-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">AL</span>
+      <span class="brand-text">
+        <span class="brand-word">AVALONLOTUS</span>
+        <span class="brand-red-rule"></span>
+        <span class="brand-name">AvalonLotus International Pty., Ltd</span>
+      </span>
+    </a>
+    <nav class="site-nav">
+      <a href="#disciplines">Disciplines</a>
+      <a href="#about">About</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#terms">Terms</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero-section">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-orbits" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="site-container hero-inner">
+      <span class="status-badge">Independent</span>
+      <p class="eyebrow">Tools for the self-directed</p>
+      <h1>Elevate the self,<br>pursue truth,<br>command the future</h1>
+      <p class="hero-zh">提升自我 · 尋找真實 · 掌握未來</p>
+      <p class="hero-lead">
+        AvalonLotus develops tools and educational content
+        focused on financial literacy, AI-augmented productivity, and
+        self-directed personal development.
+      </p>
+    </div>
+  </section>
+
+  <div class="hero-red-band">
+    <div class="site-container">
+      <a class="secondary-cta" href="#about">About AvalonLotus →</a>
+    </div>
+    <div class="gold-rule"></div>
+  </div>
+
+  <section id="disciplines" class="dark-section section-pad">
+    <div class="site-container">
+      <p class="section-label">Three connected disciplines</p>
+      <h2>One principle, three<br>directions of work</h2>
+      <p class="section-intro">Each line of work answers one clause of the same sentence. The tools are built to be owned, read, and modified by the people who use them.</p>
+      <div class="pillar-grid">
+        <article class="pillar-card">
+          <div class="pillar-icon">01</div>
+          <h3>Elevate the self</h3>
+          <p class="pillar-zh">提升自我</p>
+          <div class="card-rule"></div>
+          <p>Self-directed personal development: systems for deliberate practice, long-horizon planning, and the discipline to keep both.</p>
+          <span class="card-number">01</span>
+        </article>
+        <article class="pillar-card">
+          <div class="pillar-icon">02</div>
+          <h3>Pursue truth</h3>
+          <p class="pillar-zh">尋找真實</p>
+          <div class="card-rule"></div>
+          <p>Financial literacy and independent reporting: pipelines that gather, verify, and publish without an intermediary deciding what you may read.</p>
+          <span class="card-number">02</span>
+        </article>
+        <article class="pillar-card">
+          <div class="pillar-icon">03</div>
+          <h3>Command the future</h3>
+          <p class="pillar-zh">掌握未來</p>
+          <div class="card-rule"></div>
+          <p>AI-augmented productivity: agent workflows and desktop tooling that keep the operator in command rather than in the loop.</p>
+          <span class="card-number">03</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section-pad">
+    <div class="site-container about-grid">
+      <div class="about-lockup">
+        <div class="about-seal">AL</div>
+        <div class="about-word">AVALONLOTUS</div>
+        <div class="about-rule"></div>
+        <div class="about-full">AvalonLotus International Pty., Ltd</div>
+      </div>
+      <div>
+        <p class="section-label">About the company</p>
+        <h2>Built to be owned,<br>not rented</h2>
+        <p class="section-intro">AvalonLotus builds what it uses, on infrastructure and domains the company holds outright.</p>
+        <ul class="metric-list">
+          <li>
+            <span class="metric-check">✓</span>
+            <span>
+              <span class="metric-title">Independent</span><br>
+              <span class="metric-text">Domain, code, and data held directly — no platform between the work and the people who rely on it.</span>
+            </span>
+          </li>
+          <li>
+            <span class="metric-check">✓</span>
+            <span>
+              <span class="metric-title">No tracking</span><br>
+              <span class="metric-text">This site runs no analytics scripts and sets no tracking cookies. The policy below states exactly what is collected.</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="legal-band">
+    <div class="site-container">
+      <p class="section-label">Policies</p>
+      <h2>Stated in full, not summarised</h2>
+      <p>The privacy policy and terms of service that govern this website follow below, in their entirety, on this same page.</p>
+    </div>
+  </div>
+
+  <div class="legal-wrap">
+<section id="privacy">
+  <h2>Privacy Policy</h2>
+  <div class="meta">Last updated: 2026-05-16</div>
+
+  <p>
+    AvalonLotus ("we", "our", "us") operates the website at
+    <strong>avalonlotus.com</strong> (the "Service"). This Privacy Policy
+    describes what information we collect, how we use it, and your rights
+    regarding that information.
+  </p>
+
+  <h3>Information We Collect</h3>
+  <p>
+    Our hosting provider automatically collects standard web server log
+    information when you visit the Service, including your IP address,
+    browser type, operating system, referring page, and pages visited.
+    We do not run analytics scripts or set tracking cookies on this site.
+  </p>
+  <p>
+    If you contact us via email, we collect the information you choose to
+    provide (name, email address, message content) solely for the purpose
+    of responding to your inquiry.
+  </p>
+
+  <h3>How We Use Information</h3>
+  <ul>
+    <li>Operate, maintain, and secure the website.</li>
+    <li>Respond to inquiries you initiate.</li>
+    <li>Comply with legal obligations.</li>
+  </ul>
+  <p>
+    We do not sell, rent, or share your information with third parties
+    for marketing purposes.
+  </p>
+
+  <h3>Data Retention</h3>
+  <p>
+    Server logs are retained for up to 90 days. Email correspondence is
+    retained as long as necessary to respond and for legitimate
+    record-keeping needs.
+  </p>
+
+  <h3>Your Rights</h3>
+  <p>
+    If you are located in the European Economic Area, the United Kingdom,
+    California, Taiwan, or another jurisdiction with similar data
+    protection laws, you may have the right to access, correct, or
+    request deletion of your personal information. To exercise these
+    rights, email
+    <a href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com</a>.
+  </p>
+
+  <h3>Third-Party Services</h3>
+  <p>
+    This site is hosted by a third-party provider.
+  </p>
+
+  <h3>Changes</h3>
+  <p>
+    We may update this Privacy Policy from time to time. The
+    "Last updated" date above reflects the most recent revision.
+  </p>
+
+  <h3>Contact</h3>
+  <p>
+    For questions about this Privacy Policy, email
+    <a href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com</a>.
+  </p>
+</section>
+
+<section id="terms">
+  <h2>Terms of Service</h2>
+  <div class="meta">Last updated: 2026-05-16</div>
+
+  <p>
+    These Terms govern your access to and use of
+    <strong>avalonlotus.com</strong> (the "Service"), operated by
+    AvalonLotus ("we", "our", "us"). By accessing the Service, you agree
+    to be bound by these Terms. If you do not agree, please do not use
+    the Service.
+  </p>
+
+  <h3>Use of the Service</h3>
+  <p>
+    You agree to use the Service only for lawful purposes and in a
+    manner that does not infringe the rights of, restrict, or inhibit
+    anyone else's use of the Service. You may not:
+  </p>
+  <ul>
+    <li>Use the Service to violate any applicable law or regulation.</li>
+    <li>Attempt to gain unauthorized access to any part of the Service
+        or its underlying infrastructure.</li>
+    <li>Use automated tools (other than standard search-engine
+        crawlers) to access the Service without our written
+        permission.</li>
+  </ul>
+
+  <h3>Intellectual Property</h3>
+  <p>
+    The Service and its original content are owned by AvalonLotus and
+    protected by copyright and other intellectual-property laws.
+  </p>
+
+  <h3>Disclaimer</h3>
+  <p>
+    The Service is provided "as is" and "as available" without
+    warranties of any kind, express or implied. We do not warrant that
+    the Service will be uninterrupted, secure, or error-free.
+  </p>
+
+  <h3>Limitation of Liability</h3>
+  <p>
+    To the maximum extent permitted by applicable law, AvalonLotus
+    shall not be liable for any indirect, incidental, special,
+    consequential, or punitive damages arising out of or related to
+    your use of the Service.
+  </p>
+
+  <h3>Governing Law</h3>
+  <p>
+    These Terms are governed by the laws of Taiwan, without regard to
+    its conflict-of-law provisions.
+  </p>
+
+  <h3>Changes</h3>
+  <p>
+    We reserve the right to modify these Terms at any time. The
+    "Last updated" date reflects the most recent revision. Continued
+    use of the Service after changes are posted constitutes acceptance
+    of the revised Terms.
+  </p>
+
+  <h3>Contact</h3>
+  <p>
+    For questions about these Terms, email
+    <a href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com</a>.
+  </p>
+</section>
+  </div>
+
+</main>
+
+<footer id="contact" class="site-footer">
+  <div class="site-container">
+    <div class="footer-word">AVALONLOTUS</div>
+    <div class="footer-rule"></div>
+    <div class="footer-full">AvalonLotus International Pty., Ltd</div>
+    <p class="footer-links">
+      Email: <a href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com</a>
+    </p>
+    <div class="footer-pillars">提升自我 · 尋找真實 · 掌握未來</div>
+  </div>
+</footer>
+
+</body>
+</html>
