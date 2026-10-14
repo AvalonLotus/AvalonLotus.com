@@ -67,7 +67,8 @@ main:focus { outline: none; }
 ::selection { background: var(--gold); color: var(--ink); }
 [id] { scroll-margin-top: var(--head-h); }
 
-#bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--ink); }
+#bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--ink) url(Flowing-Light.jpg) center / cover no-repeat; }
+@media (orientation: landscape) { #bg { background-image: url(Flowing-Light-horizontal.jpg); } }
 #bg video { display: block; width: 100%; height: 100%; object-fit: cover; }
 #fluid { position: fixed; inset: 0; z-index: 1; width: 100vw; height: 100vh; pointer-events: none; opacity: .5; mix-blend-mode: screen; transition: opacity .9s; }
 #fluid.is-asleep { opacity: 0; }
