@@ -69,6 +69,8 @@ main:focus { outline: none; }
 
 #bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--ink); }
 #bg video { display: block; width: 100%; height: 100%; object-fit: cover; }
+#fluid { position: fixed; inset: 0; z-index: 1; width: 100vw; height: 100vh; pointer-events: none; opacity: .5; mix-blend-mode: screen; transition: opacity .9s; }
+#fluid.is-asleep { opacity: 0; }
 @keyframes reveal { from { opacity: 0; } to { opacity: 1; } }
 
 .skip {
@@ -156,7 +158,10 @@ a:hover > .arrow { transform: translateX(4px); }
 .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
 /* hero */
-main, .site-footer { position: relative; z-index: 2; }
+main { position: relative; }
+main > section, .site-footer { position: relative; z-index: 2; }
+.sect[data-dye], .site-footer[data-dye] { z-index: auto; }
+:where(.sect[data-dye], .site-footer[data-dye]) > * { position: relative; z-index: 2; }
 .hero {
   position: relative; isolation: isolate;
   display: flex; flex-direction: column; justify-content: center;
@@ -344,12 +349,14 @@ main, .site-footer { position: relative; z-index: 2; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  #fluid { display: none; }
   *, *::before, *::after { transition: none !important; }
 }
 </style>
 </head>
 <body>
 <div id="bg" aria-hidden="true"><video autoplay muted loop playsinline preload="auto"><source src="Flowing-Light-horizontal.mp4" media="(orientation: landscape)"><source src="Flowing-Light.mp4"></video></div>
+<canvas id="fluid" aria-hidden="true"></canvas>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <symbol id="lotus" viewBox="0 0 1331 992"><path d="M666.43 0.05C672.51 5.11 678.58 10.16 684.81 15.03C707.62 32.82 731.21 49.79 751.79 70.23C832.34 150.23 899.13 250.76 910.81 366.15C913.75 395.29 912.79 424.85 908.86 453.84C904.07 489.25 892.56 527.41 878.57 560.29C859.68 604.68 834.52 646.41 806.02 685.26C792.36 703.88 778.16 722.07 763.93 740.26C771.28 729.08 778.65 717.93 785.67 706.54C803.89 676.95 819.79 645.77 832.74 613.51C870.73 518.93 881.8 416.07 849.82 318.03C839.93 287.72 826.42 258.75 809.86 231.51C789.7 198.35 764.97 168.2 737.41 140.94C727.94 131.57 718.24 122.41 708.52 113.3C693.81 99.52 678.76 85.77 666.39 69.8C655.34 84.46 641.6 96.97 628.27 109.51C617.95 119.21 607.63 128.91 597.55 138.86C591.03 145.28 584.47 151.72 578.27 158.45C557.34 181.15 538.38 205.93 522.41 232.37C505.72 260.01 491.88 289.49 482.24 320.34C451.35 419.11 462.03 519.36 500.4 614.39C513.24 646.19 528.95 676.91 546.88 706.15C553.96 717.68 561.44 728.94 568.85 740.26C554.49 721.77 540 703.41 526.2 684.49C495.54 642.44 468.28 597.05 449.36 548.44C435.82 513.64 426.1 477.26 422.21 440.08C422.02 438.25 422 436.42 421.84 434.59C421.68 432.77 421.36 430.96 421.21 429.14C420.96 426.15 420.96 423.14 420.81 420.15C419.87 401.05 420.23 383.33 422.17 364.28C423.22 354.03 424.89 343.83 426.81 333.71C443.14 247.27 490.52 170.29 548.12 105.14C560.14 91.54 572.61 78.34 585.67 65.72C603.97 48.04 624.72 33 644.82 17.48C652.15 11.81 659.22 5.85 666.43 0.05ZM663.29 155.69C671.24 166.65 678.88 177.87 686.68 188.94C698.06 205.09 709.55 221.17 720.75 237.44C710.2 275.97 702.57 315.1 695.77 354.43C691.78 377.52 688.29 400.71 685.18 423.93C683.95 433.16 682.96 442.42 681.77 451.66C679.27 470.96 677.3 490.32 675.24 509.67C675.02 511.66 675 513.66 674.8 515.64C673.1 532.53 671.53 549.43 670.18 566.35C669.64 573.15 669.31 579.97 668.78 586.77C668.26 593.57 667.67 600.37 667.21 607.18C667 610.17 666.99 613.17 666.78 616.16C666.62 618.48 666.31 620.79 666.17 623.12C665.98 626.28 665.97 629.44 665.78 632.6C665.62 635.26 665.31 637.91 665.17 640.57C664.97 644.23 664.95 647.89 664.7 651.55C664.53 654.04 664.2 656.51 664.07 659.01C663.73 665.24 663.64 671.48 663.44 677.71C662.22 653.86 660.88 630.01 659.21 606.19C659.02 603.36 659.01 600.53 658.81 597.71C658.35 591.07 657.71 584.44 657.21 577.8C657.02 575.31 657 572.81 656.79 570.32C656.63 568.5 656.34 566.69 656.19 564.86C655.69 558.72 655.36 552.57 654.82 546.44C654.66 544.61 654.35 542.81 654.19 540.98C654.01 538.99 653.99 536.99 653.81 535C652.44 519.93 650.93 504.86 649.23 489.82C649.02 488 648.99 486.16 648.79 484.34C645.64 456.57 642.13 428.87 638.18 401.2C633.93 371.42 628.95 341.78 623.21 312.24C618.33 287.09 612.8 262.06 605.79 237.41C615.14 224.65 624.03 211.54 633.13 198.6C643.19 184.3 653.44 170.13 663.29 155.69ZM589.5 254.94C591.96 262.41 594.49 269.85 596.69 277.4C614.19 337.46 624.82 401.69 633.2 463.63C635.91 483.75 638.55 503.88 640.81 524.06C642.4 538.29 643.73 552.54 645.19 566.78C646.32 577.88 647.61 588.95 648.76 600.05C648.98 602.2 649 604.37 649.19 606.53C649.75 613 650.34 619.47 650.79 625.95C651.41 635.09 651.71 644.25 652.19 653.4C652.35 656.39 652.69 659.37 652.83 662.37C653.37 673.35 653.69 684.34 654.2 695.32C654.35 698.65 654.67 701.97 654.81 705.3C654.99 709.63 655.02 713.96 655.21 718.29C655.35 721.45 655.65 724.6 655.79 727.76C655.98 732.09 656 736.43 656.2 740.75C656.34 743.92 656.65 747.07 656.8 750.23C656.99 754.39 657.01 758.56 657.2 762.72C657.96 779.19 658.89 795.65 659.78 812.12C659.98 815.95 660 819.78 660.19 823.61C660.62 832.25 661.24 840.9 661.77 849.54C661.99 853.03 662 856.54 662.22 860.03C662.58 865.75 663.08 871.46 663.44 877.18C664.42 857.15 665.69 837.14 666.78 817.11C667 813.12 667.01 809.12 667.22 805.13C667.73 795.65 668.37 786.17 668.81 776.69C669 772.36 669.01 768.03 669.23 763.7C669.38 760.71 669.67 757.72 669.81 754.73C670 750.4 670.02 746.07 670.23 741.74C670.38 738.91 670.65 736.09 670.78 733.26C671.33 721.28 671.66 709.29 672.19 697.31C672.33 694.15 672.64 691 672.79 687.84C673 683.51 673.01 679.18 673.22 674.85C673.68 665.54 674.29 656.23 674.8 646.91C675.28 638.27 675.55 629.61 676.19 620.97C677.62 601.7 679.88 582.54 681.82 563.32C685.01 531.69 688.44 500.09 692.79 468.6C694.58 455.58 696.23 442.54 698.22 429.55C707.23 370.54 718.45 311.55 737.09 254.71C738.29 256.78 739.37 258.94 740.71 260.93C745.84 268.57 752.95 273.87 760.69 278.63C747.45 377.98 734.42 477.37 721.2 576.73C719.2 591.73 717.31 606.75 715.23 621.74C714.68 625.7 714.32 629.68 713.77 633.63C712.21 644.83 710.63 656.04 709.21 667.26C708 676.83 707.05 686.44 705.84 696.01C704.78 704.43 703.48 712.81 702.21 721.2C699.95 736.15 697.68 751.11 694.74 765.95C689.71 791.36 683.08 816.39 675.77 841.24C671.79 854.77 667.41 868.18 663.32 881.69C651.33 844.13 639.96 806.22 632.23 767.55C629.33 753.04 626.97 738.42 624.83 723.79C623.24 712.93 621.56 702.08 620.19 691.18C619.33 684.25 618.63 677.29 617.8 670.35C615.98 655.16 613.8 640 611.82 624.83C610.02 610.97 608.07 597.14 606.2 583.29C602.29 554.27 598.75 525.21 594.78 496.2C590.47 464.72 586.27 433.22 582.18 401.72C578.58 374 574.91 346.3 571.2 318.59L568.2 295.84C567.43 290.11 566.87 284.36 565.89 278.66C573.38 274.1 580.32 268.97 585.42 261.7C586.93 259.54 588.16 257.2 589.5 254.94ZM341.5 450.41C320.73 445.26 301.56 441 280.14 439.21C276.82 438.93 273.48 438.91 270.16 438.77C239.5 437.47 208.93 441.56 179.64 450.69C179.83 454.45 179.88 458.23 180.18 461.98C181.76 481.65 185.36 501.3 191.25 520.15C226.66 633.44 335.48 699.89 438.97 743.38C456.69 750.82 474.6 757.75 492.67 764.3C516.03 772.77 539.64 780.42 563.36 787.8C558.77 787.09 554.15 786.53 549.56 785.79C531.36 782.87 513.19 779.57 495.14 775.77C476.46 771.84 457.88 767.36 439.49 762.26C349.12 737.17 257.77 696.42 194.34 625.12C179 607.88 165.21 589.19 153.97 569C143.02 549.32 133.9 528.62 127.28 507.08C120.52 485.11 116.03 462.65 113.22 439.86C113 438.04 112.98 436.21 112.79 434.38C112.62 432.73 112.31 431.09 112.16 429.43C111.97 427.27 111.97 425.1 111.82 422.94C111.65 420.62 111.32 418.31 111.2 415.98C110.63 405.35 110.7 394.67 110.7 384.03C119.72 386.77 128.75 389.48 137.89 391.78C164 398.34 190.56 403.13 217.05 407.83C249.09 413.51 283.87 419.79 313.51 433.59C323.94 438.45 332.14 443.84 341.5 450.41ZM1220.71 383.99C1221.05 423.38 1217.01 463.02 1205.87 500.9C1198.76 525.11 1188.97 548.44 1176.52 570.39C1161.66 596.6 1142.8 620.39 1121.29 641.43C1043.74 717.26 935.61 754.98 831.47 776.75C810.41 781.15 789.18 784.53 767.92 787.8C781.66 783.5 795.4 779.22 809.06 774.66C880.71 750.72 956.17 719.36 1018.1 675.68C1065.5 642.25 1107.63 599.28 1130.71 545.29C1139.38 525.02 1145.57 503.62 1148.81 481.8C1149.62 476.39 1150.29 470.91 1150.8 465.46C1151.26 460.55 1151.39 455.61 1151.85 450.7C1121.87 441.72 1092.66 437.44 1061.33 438.76C1058 438.91 1054.66 438.93 1051.34 439.2C1029.93 440.9 1010.55 445.32 989.79 450.39C992.74 448.37 995.59 446.21 998.57 444.23C1004.76 440.12 1011.36 436.55 1018.1 433.43C1049.59 418.87 1085.97 412.89 1119.91 406.8C1143.1 402.64 1166.37 398.48 1189.25 392.81C1199.83 390.18 1210.28 387.14 1220.71 383.99ZM0.08 646.91C81.79 710.58 169.34 759.33 266.29 795.76C307.9 811.39 350.64 823.68 392.28 839.23C456.14 863.08 520.05 892.46 573.14 935.87C593.39 952.42 611.41 971.43 627.96 991.64C601.3 972.49 573.75 954.67 544.2 940.26C516.13 926.58 486.64 916.28 456.5 908.25C436.75 902.99 416.75 898.79 396.72 894.79C380.1 891.47 363.46 888.23 346.78 885.18C330.4 882.19 313.52 879.44 297.32 875.74C280.35 871.86 263.6 866.89 247.27 860.85C157.28 827.56 79.49 763.95 24.48 685.81C15.65 673.26 7.79 660.16 0.08 646.91ZM1330.98 647.02C1315.68 675.73 1294.16 704.73 1272.63 729.08C1219.5 789.15 1151.94 837.59 1075.79 863.78C1062 868.53 1047.94 872.58 1033.71 875.8C1017.34 879.5 1000.74 882.15 984.25 885.22C945.1 892.53 905.82 899.7 867.36 910.26C836.69 918.69 806.74 929.99 778.45 944.58C752.1 958.16 727.46 974.4 703.35 991.59C707.4 986.78 711.34 981.87 715.51 977.16C733.41 956.91 753.36 938.67 775.13 922.65C827.96 883.76 893.78 855.1 955.43 833.23C991.84 820.31 1028.89 809.3 1065.07 795.72C1134.7 769.6 1201.44 736.25 1263.53 695.29C1279.07 685.04 1294.31 674.38 1309.33 663.38C1316.62 658.05 1323.99 652.75 1330.98 647.02ZM637.38 856.77C640.05 868.41 642.89 879.99 645.73 891.58C648.87 904.37 651.85 917.31 656.17 929.77C658.29 935.88 660.8 941.83 663.31 947.79C665.9 941.52 668.55 935.24 670.7 928.79C673.62 920.02 675.88 911.05 678.17 902.11C681.12 890.6 683.67 878.97 686.76 867.5C687.71 863.97 688.31 860.33 689.16 856.77C687.67 870.28 685.82 883.71 684.18 897.19C682.91 907.59 681.97 918 678.77 928.04C675.25 939.14 669.53 949.13 663.29 958.88C656.68 948.55 650.7 938.04 647.2 926.2C644.72 917.84 643.9 909.3 642.79 900.69C640.92 886.06 639.18 871.42 637.38 856.77Z"/></symbol>
 </svg>
@@ -396,7 +403,7 @@ main, .site-footer { position: relative; z-index: 2; }
 
 <main id="top" tabindex="-1">
 
-  <section class="hero" data-nav="top" aria-labelledby="hero-title">
+  <section class="hero" data-nav="top" data-dye="#B08CD6" aria-labelledby="hero-title">
     <div class="hero-copy">
       <p class="eyebrow"><span data-l="en">Tools for the self-directed</span><span data-l="zh">為自主者打造的工具</span></p>
       <h1 id="hero-title"><span data-l="en">Elevate the self,<br>pursue truth,<br><span class="gold">command the future.</span></span><span data-l="zh">提升自我，<br>尋找真實，<br><span class="gold">掌握未來。</span></span></h1>
@@ -776,6 +783,298 @@ main, .site-footer { position: relative; z-index: 2; }
   function sync() { if (mq.matches) v.pause(); else v.play().catch(function () {}); }
   sync();
   mq.addEventListener('change', sync);
+})();
+</script>
+<script>
+(() => {
+  // fluid cursor: WebGL2 Navier–Stokes dye under the content of sections with data-dye, in that colour
+  const canvas = document.getElementById('fluid');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const gl = !reduce && fine && canvas.getContext('webgl2', {alpha: true, depth: false, stencil: false, antialias: false, premultipliedAlpha: true, preserveDrawingBuffer: false});
+  if (!gl) { canvas.remove(); return; }
+  gl.getExtension('EXT_color_buffer_float');
+  gl.getExtension('OES_texture_float_linear');
+
+  const P = {radius: 6, force: 5200, curl: 14, dissipation: .67, intensity: .6};
+  const Q = {dye: 640, dpr: 1.5, iters: 26};
+  const SIM_RES = 96, IDLE_MS = 1400, SLEEP_MS = 520;
+  const dyeOf = c => [1, 3, 5].map(i => parseInt(c.slice(i, i + 2), 16) / 255 * P.intensity);
+
+  const VERT = `#version 300 es
+in vec2 a_pos; out vec2 v_uv;
+void main(){ v_uv = a_pos*0.5+0.5; gl_Position = vec4(a_pos,0.0,1.0); }`;
+  const HEAD = `#version 300 es
+precision highp float; in vec2 v_uv; out vec4 outColor;`;
+  const FRAG = {
+    advect: `${HEAD}
+uniform sampler2D u_velocity, u_source; uniform vec2 u_texel; uniform float u_dt, u_dissipation, u_outward;
+void main(){
+  vec2 coord = v_uv - u_dt * texture(u_velocity, v_uv).xy * u_texel;
+  if (u_outward > 0.0) coord -= (v_uv - vec2(0.5)) * u_outward;
+  outColor = u_dissipation * texture(u_source, coord);
+}`,
+    splat: `${HEAD}
+uniform sampler2D u_target; uniform vec2 u_point; uniform vec3 u_color; uniform float u_radius, u_aspect, u_radial;
+void main(){
+  vec2 p = v_uv - u_point; p.x *= u_aspect;
+  float falloff = exp(-dot(p,p) / u_radius);
+  vec3 splat = falloff * u_color;
+  float plen = length(p);
+  vec2 rdir = plen > 0.0001 ? p / plen : vec2(0.0);
+  splat.xy += u_radial * rdir * falloff * length(u_color.xy) * 1.5;
+  outColor = vec4(texture(u_target, v_uv).xyz + splat, 1.0);
+}`,
+    div: `${HEAD}
+uniform sampler2D u_velocity; uniform vec2 u_texel;
+void main(){
+  float L = texture(u_velocity, v_uv - vec2(u_texel.x, 0.0)).x;
+  float R = texture(u_velocity, v_uv + vec2(u_texel.x, 0.0)).x;
+  float B = texture(u_velocity, v_uv - vec2(0.0, u_texel.y)).y;
+  float T = texture(u_velocity, v_uv + vec2(0.0, u_texel.y)).y;
+  vec2 C = texture(u_velocity, v_uv).xy;
+  if (v_uv.x < u_texel.x) L = -C.x;
+  if (v_uv.x > 1.0 - u_texel.x) R = -C.x;
+  if (v_uv.y < u_texel.y) B = -C.y;
+  if (v_uv.y > 1.0 - u_texel.y) T = -C.y;
+  outColor = vec4(0.5 * (R - L + T - B), 0.0, 0.0, 1.0);
+}`,
+    curl: `${HEAD}
+uniform sampler2D u_velocity; uniform vec2 u_texel;
+void main(){
+  float L = texture(u_velocity, v_uv - vec2(u_texel.x, 0.0)).y;
+  float R = texture(u_velocity, v_uv + vec2(u_texel.x, 0.0)).y;
+  float B = texture(u_velocity, v_uv - vec2(0.0, u_texel.y)).x;
+  float T = texture(u_velocity, v_uv + vec2(0.0, u_texel.y)).x;
+  outColor = vec4(R - L - T + B, 0.0, 0.0, 1.0);
+}`,
+    vort: `${HEAD}
+uniform sampler2D u_velocity, u_curl; uniform vec2 u_texel; uniform float u_curlStrength, u_dt;
+void main(){
+  float L = texture(u_curl, v_uv - vec2(u_texel.x, 0.0)).x;
+  float R = texture(u_curl, v_uv + vec2(u_texel.x, 0.0)).x;
+  float B = texture(u_curl, v_uv - vec2(0.0, u_texel.y)).x;
+  float T = texture(u_curl, v_uv + vec2(0.0, u_texel.y)).x;
+  float C = texture(u_curl, v_uv).x;
+  vec2 force = 0.5 * vec2(abs(T) - abs(B), abs(L) - abs(R));
+  force /= length(force) + 0.0001;
+  force *= u_curlStrength * C; force.y *= -1.0;
+  vec2 vel = texture(u_velocity, v_uv).xy + force * u_dt;
+  outColor = vec4(clamp(vel, -1000.0, 1000.0), 0.0, 1.0);
+}`,
+    pressure: `${HEAD}
+uniform sampler2D u_pressure, u_divergence; uniform vec2 u_texel;
+void main(){
+  float L = texture(u_pressure, v_uv - vec2(u_texel.x, 0.0)).x;
+  float R = texture(u_pressure, v_uv + vec2(u_texel.x, 0.0)).x;
+  float B = texture(u_pressure, v_uv - vec2(0.0, u_texel.y)).x;
+  float T = texture(u_pressure, v_uv + vec2(0.0, u_texel.y)).x;
+  float d = texture(u_divergence, v_uv).x;
+  outColor = vec4((L + R + B + T - d) * 0.25, 0.0, 0.0, 1.0);
+}`,
+    gradSub: `${HEAD}
+uniform sampler2D u_pressure, u_velocity; uniform vec2 u_texel;
+void main(){
+  float L = texture(u_pressure, v_uv - vec2(u_texel.x, 0.0)).x;
+  float R = texture(u_pressure, v_uv + vec2(u_texel.x, 0.0)).x;
+  float B = texture(u_pressure, v_uv - vec2(0.0, u_texel.y)).x;
+  float T = texture(u_pressure, v_uv + vec2(0.0, u_texel.y)).x;
+  vec2 v = texture(u_velocity, v_uv).xy - 0.5 * vec2(R - L, T - B);
+  outColor = vec4(v, 0.0, 1.0);
+}`,
+    display: `${HEAD}
+uniform sampler2D u_tex;
+void main(){
+  vec3 c = texture(u_tex, v_uv).rgb;
+  float a = clamp(max(c.r, max(c.g, c.b)), 0.0, 1.0);
+  outColor = vec4(c, a);
+}`,
+    clear: `${HEAD}
+uniform sampler2D u_tex; uniform float u_value;
+void main(){ outColor = u_value * texture(u_tex, v_uv); }`,
+  };
+
+  const shader = (type, src) => {
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.error(gl.getShaderInfoLog(s)); return null; }
+    return s;
+  };
+  const program = frag => {
+    const v = shader(gl.VERTEX_SHADER, VERT), f = shader(gl.FRAGMENT_SHADER, frag);
+    if (!v || !f) return null;
+    const p = gl.createProgram(); gl.attachShader(p, v); gl.attachShader(p, f); gl.linkProgram(p);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) { console.error(gl.getProgramInfoLog(p)); return null; }
+    p.u = {}; return p;
+  };
+  const prog = {}; for (const k in FRAG) { prog[k] = program(FRAG[k]); if (!prog[k]) { canvas.remove(); return; } }
+  const U = (p, name) => p.u[name] ?? (p.u[name] = gl.getUniformLocation(p, name));
+
+  const quad = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  for (const k in prog) {
+    gl.useProgram(prog[k]);
+    const loc = gl.getAttribLocation(prog[k], 'a_pos');
+    if (loc >= 0) { gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0); }
+  }
+
+  const fbo = (w, h, internal, format, type, filter) => {
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, filter);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, internal, w, h, 0, format, type, null);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.viewport(0, 0, w, h); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    return {tex, fb, w, h, texel: [1 / w, 1 / h], attach(i) { gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, tex); return i; }};
+  };
+  const dfbo = (...a) => {
+    let r = fbo(...a), w = fbo(...a);
+    return {get read() { return r; }, get write() { return w; }, swap() { [r, w] = [w, r]; }, get texel() { return r.texel; }};
+  };
+  const blit = t => {
+    gl.bindFramebuffer(gl.FRAMEBUFFER, t ? t.fb : null);
+    gl.viewport(0, 0, t ? t.w : canvas.width, t ? t.h : canvas.height);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  };
+
+  let vel, dyeT, pre, divT, curlT;
+  const fit = res => { const a = canvas.clientWidth / Math.max(1, canvas.clientHeight); return a >= 1 ? {w: Math.round(res * a), h: res} : {w: res, h: Math.round(res / a)}; };
+  const kill = f => { gl.deleteTexture(f.tex); gl.deleteFramebuffer(f.fb); };
+  const build = () => {
+    for (const t of [vel, dyeT, pre]) if (t) { kill(t.read); kill(t.write); }
+    for (const t of [divT, curlT]) if (t) kill(t);
+    const s = fit(SIM_RES), d = fit(Q.dye), HF = gl.HALF_FLOAT;
+    vel = dfbo(s.w, s.h, gl.RG16F, gl.RG, HF, gl.LINEAR);
+    dyeT = dfbo(d.w, d.h, gl.RGBA16F, gl.RGBA, HF, gl.LINEAR);
+    pre = dfbo(s.w, s.h, gl.R16F, gl.RED, HF, gl.NEAREST);
+    divT = fbo(s.w, s.h, gl.R16F, gl.RED, HF, gl.NEAREST);
+    curlT = fbo(s.w, s.h, gl.R16F, gl.RED, HF, gl.NEAREST);
+  };
+  const resize = () => {
+    const dpr = Math.min(devicePixelRatio || 1, Q.dpr);
+    const w = Math.max(1, Math.floor(canvas.clientWidth * dpr)), h = Math.max(1, Math.floor(canvas.clientHeight * dpr));
+    if (canvas.width !== w || canvas.height !== h || !vel) { canvas.width = w; canvas.height = h; build(); }
+  };
+  resize();
+  new ResizeObserver(resize).observe(canvas);
+
+  const ptr = {x: .5, y: .5, dx: 0, dy: 0, moved: false, fresh: true};
+  let dye;
+  const splat = (target, color, radial) => {
+    const aspect = canvas.width / canvas.height, radius = P.radius * 1e-4 * (aspect > 1 ? aspect : 1);
+    const p = prog.splat; gl.useProgram(p);
+    gl.uniform1f(U(p, 'u_aspect'), aspect);
+    gl.uniform2f(U(p, 'u_point'), ptr.x, ptr.y);
+    gl.uniform1f(U(p, 'u_radius'), radius);
+    gl.uniform1i(U(p, 'u_target'), target.read.attach(0));
+    gl.uniform3f(U(p, 'u_color'), color[0], color[1], color[2]);
+    gl.uniform1f(U(p, 'u_radial'), radial);
+    blit(target.write); target.swap();
+  };
+  const inject = () => {
+    if (!ptr.moved) return;
+    ptr.moved = false;
+    splat(vel, [ptr.dx * P.force, ptr.dy * P.force, 0], 1);
+    splat(dyeT, dye, 0);
+  };
+  const step = dt => {
+    let p = prog.curl; gl.useProgram(p);
+    gl.uniform2f(U(p, 'u_texel'), vel.texel[0], vel.texel[1]);
+    gl.uniform1i(U(p, 'u_velocity'), vel.read.attach(0));
+    blit(curlT);
+
+    p = prog.vort; gl.useProgram(p);
+    gl.uniform2f(U(p, 'u_texel'), vel.texel[0], vel.texel[1]);
+    gl.uniform1i(U(p, 'u_velocity'), vel.read.attach(0));
+    gl.uniform1i(U(p, 'u_curl'), curlT.attach(1));
+    gl.uniform1f(U(p, 'u_curlStrength'), P.curl);
+    gl.uniform1f(U(p, 'u_dt'), dt);
+    blit(vel.write); vel.swap();
+
+    p = prog.div; gl.useProgram(p);
+    gl.uniform2f(U(p, 'u_texel'), vel.texel[0], vel.texel[1]);
+    gl.uniform1i(U(p, 'u_velocity'), vel.read.attach(0));
+    blit(divT);
+
+    p = prog.clear; gl.useProgram(p);
+    gl.uniform1i(U(p, 'u_tex'), pre.read.attach(0));
+    gl.uniform1f(U(p, 'u_value'), .8);
+    blit(pre.write); pre.swap();
+
+    p = prog.pressure; gl.useProgram(p);
+    gl.uniform2f(U(p, 'u_texel'), vel.texel[0], vel.texel[1]);
+    gl.uniform1i(U(p, 'u_divergence'), divT.attach(0));
+    for (let i = 0; i < Q.iters; i++) {
+      gl.uniform1i(U(p, 'u_pressure'), pre.read.attach(1));
+      blit(pre.write); pre.swap();
+    }
+
+    p = prog.gradSub; gl.useProgram(p);
+    gl.uniform2f(U(p, 'u_texel'), vel.texel[0], vel.texel[1]);
+    gl.uniform1i(U(p, 'u_pressure'), pre.read.attach(0));
+    gl.uniform1i(U(p, 'u_velocity'), vel.read.attach(1));
+    blit(vel.write); vel.swap();
+
+    p = prog.advect; gl.useProgram(p);
+    gl.uniform2f(U(p, 'u_texel'), vel.texel[0], vel.texel[1]);
+    gl.uniform1i(U(p, 'u_velocity'), vel.read.attach(0));
+    gl.uniform1i(U(p, 'u_source'), vel.read.attach(0));
+    gl.uniform1f(U(p, 'u_dt'), dt);
+    gl.uniform1f(U(p, 'u_dissipation'), 1 - .2 * dt);
+    gl.uniform1f(U(p, 'u_outward'), 0);
+    blit(vel.write); vel.swap();
+
+    gl.uniform2f(U(p, 'u_texel'), dyeT.texel[0], dyeT.texel[1]);
+    gl.uniform1i(U(p, 'u_velocity'), vel.read.attach(0));
+    gl.uniform1i(U(p, 'u_source'), dyeT.read.attach(1));
+    gl.uniform1f(U(p, 'u_dissipation'), 1 - P.dissipation * dt);
+    gl.uniform1f(U(p, 'u_outward'), .6 * dt);
+    blit(dyeT.write); dyeT.swap();
+  };
+  const display = () => {
+    const p = prog.display; gl.useProgram(p);
+    gl.uniform1i(U(p, 'u_tex'), dyeT.read.attach(0));
+    blit(null);
+  };
+
+  let raf = 0, running = false, last = 0, lastMove = 0, sleepTimer = 0;
+  const frame = t => {
+    if (!running) return;
+    const dt = Math.min(.0166, (t - last) / 1000); last = t;
+    inject(); step(dt); display();
+    if (t - lastMove > IDLE_MS) { stop(); return; }
+    raf = requestAnimationFrame(frame);
+  };
+  const start = () => {
+    clearTimeout(sleepTimer); canvas.classList.remove('is-asleep');
+    if (running || document.hidden) return;
+    running = true; last = performance.now(); raf = requestAnimationFrame(frame);
+  };
+  const stop = () => {
+    running = false; cancelAnimationFrame(raf);
+    for (const t of [vel.read, vel.write, dyeT.read, dyeT.write, pre.read, pre.write]) { gl.bindFramebuffer(gl.FRAMEBUFFER, t.fb); gl.clear(gl.COLOR_BUFFER_BIT); }
+    clearTimeout(sleepTimer); sleepTimer = setTimeout(() => canvas.classList.add('is-asleep'), SLEEP_MS);
+  };
+
+  addEventListener('pointermove', e => {
+    const zone = e.target.closest('[data-dye]');
+    if (!zone || !/^#[0-9a-f]{6}$/i.test(zone.dataset.dye)) { ptr.fresh = true; return; }
+    dye = dyeOf(zone.dataset.dye);
+    const r = canvas.getBoundingClientRect(), a = r.width / r.height;
+    const x = (e.clientX - r.left) / r.width, y = 1 - (e.clientY - r.top) / r.height;
+    let dx = ptr.fresh ? 0 : x - ptr.x, dy = ptr.fresh ? 0 : y - ptr.y;
+    if (a > 1) dy /= a; else dx *= a;
+    ptr.dx = dx; ptr.dy = dy; ptr.x = x; ptr.y = y; ptr.fresh = false;
+    ptr.moved = dx !== 0 || dy !== 0;
+    lastMove = performance.now(); start();
+  }, {passive: true});
+  document.documentElement.addEventListener('pointerleave', () => { ptr.fresh = true; });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else { lastMove = performance.now(); start(); } });
 })();
 </script>
 </body>
