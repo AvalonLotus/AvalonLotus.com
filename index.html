@@ -66,6 +66,7 @@ a { color: inherit; text-decoration: none; }
 main:focus { outline: none; }
 ::selection { background: var(--gold); color: var(--ink); }
 [id] { scroll-margin-top: var(--head-h); }
+:root[lang="zh-Hant"] [data-l="en"], :root:not([lang="zh-Hant"]) [data-l="zh"] { display: none; }
 
 #bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: var(--ink) url(Flowing-Light.jpg) center / cover no-repeat; }
 @media (orientation: landscape) { #bg { background-image: url(Flowing-Light-horizontal.jpg); } }
