@@ -25,8 +25,8 @@
 | H6 | 顏色、字體、間距寫進 `:root` 的自訂屬性；取自 `AvalonLotus CIS` `tokens.json` 的值在同一行註解寫 token 名稱 |
 | H7 | 裝飾用 `<svg>` 加 `aria-hidden="true" focusable="false"` |
 | H8 | 新增區段加 `id`、`data-nav`、`aria-labelledby`，並在 `.nav` 與 `#menu` 各加一個連結 |
-| H10 | 新增頁面在每頁的 `.nav`、`#menu` 與頁尾各有一個連結；`<style>`、導覽列、`#menu`、頁尾、`#bg`、`#fluid` 與所有 `<script>` 在每頁解析後的結構相同 |
 | H9 | 語言切換靠 `<html lang>`：`[data-l]` 的顯示與隱藏只由 `:root[lang]` 的 CSS 規則決定，不靠 script 執行 |
+| H10 | 新增頁面在每頁的 `.nav`、`#menu` 與頁尾各有一個連結；`<style>`、導覽列、`#menu`、頁尾、`#bg`、`#fluid` 與所有 `<script>` 在每頁解析後的結構相同 |
 
 ## JavaScript
 

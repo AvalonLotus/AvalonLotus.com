@@ -24,7 +24,7 @@ trap cleanup EXIT
 step(){  # step <label> <command...>: ok plus its warning: lines, or FAIL with the first lines of the output
   local label="$1" out
   shift
-  printf '%-28s' "$label"
+  printf '%-32s' "$label"
   if out=$("$@" 2>&1); then
     echo ok
     printf '%s\n' "$out" | grep '^warning:' | sed 's/^/    /'
@@ -156,21 +156,25 @@ rules = [(r"sk-ant-[A-Za-z0-9_-]{20,}", "looks like an API key", None),
          (r"\sstyle=\"", "H2 inline style attribute", ".html"),
          (r"!important", "H2 !important", ".html"),
          (r"https://(?!www\.avalonlotus\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)", "H3 new external host", ".html")]
-# each page split out of base's index.html carries its lines unchanged: per file, a line is excluded at most as many
-# times as it occurs in base's index.html (none when base has no index.html); the API key rule is never excluded
+# each page split out of base's index.html carries its lines unchanged: a line is excluded only when the whole current
+# file holds it no more often than base's index.html does (none when base has no index.html); the API key rule never is
 from collections import Counter
 listed = subprocess.run(["git", "cat-file", "-e", f"{base}:index.html"], capture_output=True).returncode == 0
 base_lines = Counter(git("show", f"{base}:index.html").splitlines()) if listed else Counter()
 secret = {"looks like an API key"}
-remaining = {}
+current = {}
 bad = []
 for src, n, text in added:
-    known = remaining.setdefault(src, Counter(base_lines))
+    if src not in current:
+        try:
+            with open(src, encoding="utf-8", errors="replace") as handle:
+                current[src] = Counter(handle.read().splitlines())
+        except OSError:
+            current[src] = Counter()
     for pattern, label, ext in rules:
         if (ext and not src.endswith(ext)) or not re.search(pattern, text):
             continue
-        if label not in secret and known[text] > 0:
-            known[text] -= 1
+        if label not in secret and base_lines[text] > 0 and current[src][text] <= base_lines[text]:
             print(f"warning: {src}:{n}: {label} excluded, line is in {base}:index.html", file=sys.stderr)
             continue
         bad.append(f"{src}:{n}: {label}")
