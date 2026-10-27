@@ -263,6 +263,45 @@ main > section, .site-footer { position: relative; z-index: 2; }
 .foot-links { display: flex; gap: 24px; }
 .foot-links a:hover { color: var(--gold); }
 
+/* trial: vercel-style layout */
+.btn-white { background: var(--ink-invert); border-color: var(--ink-invert); color: var(--ink); }
+.btn-white:hover { background: var(--gold-pale); border-color: var(--gold-pale); }
+.svc { display: grid; gap: clamp(56px, 8vw, 112px); }
+.svc-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(32px, 5vw, 80px); }
+.svc-row:nth-child(even) .svc-media { order: 2; }
+.svc-media {
+  position: relative; display: grid; place-items: center; aspect-ratio: 16 / 10;
+  background: var(--card); border: 1px solid var(--line); border-radius: 6px; overflow: hidden;
+}
+.svc-media .icon { width: 30%; height: auto; stroke-width: .6; }
+.svc-media .card-num { top: 22px; right: 26px; }
+.svc-copy h3 { margin: 0; font: var(--weight-title) clamp(30px, 3vw, 42px)/1.1 var(--font-title); letter-spacing: var(--tracking-title); color: var(--ink-invert); }
+.svc-copy .card-sub { margin: 10px 0 18px; }
+.svc-out { margin: 0 0 22px; font-size: 15.5px; color: var(--text); }
+.svc-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.svc-list li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; color: var(--text-dim); }
+.svc-list li::before { content: ""; flex: none; width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+.bento { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 20px); max-width: 1120px; margin: 0 auto; padding: 0; list-style: none; }
+.tile { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; min-height: 220px; padding: clamp(24px, 2.6vw, 36px); background: var(--card); border: 1px solid var(--line); border-radius: 6px; transition: border-color .35s; }
+.tile:hover { border-color: var(--line-gold); }
+.tile-wide { grid-column: span 2; }
+.tile h3 { margin: 0 0 10px; font: 700 12.5px/1.4 var(--font-ui); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-invert); }
+.tile p { margin: 0; font-size: 14.5px; color: var(--text-dim); }
+.tile-wide p { max-width: 34em; font-size: 16px; color: var(--text); }
+.tile .stat-num { font-size: clamp(56px, 6vw, 88px); }
+.closing { padding-bottom: clamp(56px, 7vw, 88px); margin-bottom: clamp(48px, 6vw, 72px); border-bottom: 1px solid var(--line); text-align: center; }
+.closing h2 { font-size: clamp(36px, 4.2vw, 64px); }
+.closing .actions { justify-content: center; }
+.foot-cols { display: grid; grid-template-columns: 1.6fr repeat(4, minmax(0, 1fr)); gap: 36px 32px; padding-bottom: 44px; border-bottom: 1px solid var(--line); }
+.foot-cols .foot-motto { display: block; margin-top: 20px; }
+.foot-col h3 { margin: 0 0 16px; font: 600 11px/1.4 var(--font-ui); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-invert); }
+.foot-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.foot-col a { font-size: 14px; color: var(--text-dim); transition: color .25s; }
+.foot-col a:hover { color: var(--gold); }
+:root[lang="zh-Hant"] .foot-col h3 { font-size: 13.5px; letter-spacing: .12em; }
+:root[lang="zh-Hant"] .tile h3 { font-size: 15.5px; letter-spacing: .1em; }
+:root[lang="zh-Hant"] .svc-out, :root[lang="zh-Hant"] .svc-list li { font-size: 16px; }
+
 /* overlay menu */
 .menu {
   position: fixed; inset: 0; z-index: 9; overflow-y: auto;
@@ -314,6 +353,12 @@ main > section, .site-footer { position: relative; z-index: 2; }
   .why li { padding: 36px 0; }
   .why li + li { border-left: 0; border-top: 1px solid var(--line); }
   .why-mark { right: -30vw; width: 90vw; opacity: .035; }
+  .svc-row { grid-template-columns: 1fr; }
+  .svc-row:nth-child(even) .svc-media { order: 0; }
+  .bento { grid-template-columns: 1fr; }
+  .tile-wide { grid-column: auto; }
+  .foot-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .foot-brand { grid-column: 1 / -1; }
 }
 @media (max-aspect-ratio: 4/5) {
   .hero { justify-content: flex-end; padding-top: 40svh; }
@@ -375,7 +420,6 @@ main > section, .site-footer { position: relative; z-index: 2; }
   </a>
   <nav aria-label="Primary" data-aria-zh="主要導覽">
     <ul class="nav">
-      <li><a href="#top" aria-current="true"><span data-l="en">Home</span><span data-l="zh">首頁</span></a></li>
       <li><a href="#disciplines"><span data-l="en">Disciplines</span><span data-l="zh">業務領域</span></a></li>
       <li><a href="#about"><span data-l="en">About</span><span data-l="zh">關於我們</span></a></li>
       <li><a href="#policies"><span data-l="en">Policies</span><span data-l="zh">政策</span></a></li>
@@ -383,7 +427,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
     </ul>
   </nav>
   <button class="lang-btn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3C9.5 5.6 8.2 8.6 8.2 12s1.3 6.4 3.8 9"/></svg><span data-l="en" lang="zh-Hant">中文</span><span data-l="zh" lang="en">EN</span></button>
-  <a class="btn btn-line btn-sm head-cta" href="mailto:Lien.Founder@AvalonLotus.com"><span data-l="en">Get in touch</span><span data-l="zh">與我們聯絡</span></a>
+  <a class="btn btn-white btn-sm head-cta" href="mailto:Lien.Founder@AvalonLotus.com"><span data-l="en">Contact</span><span data-l="zh">聯絡我們</span></a>
   <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu" data-aria-zh="選單"><span></span><span></span><span></span></button>
 </header>
 
@@ -414,11 +458,6 @@ main > section, .site-footer { position: relative; z-index: 2; }
         <a class="btn btn-solid" href="#disciplines"><span data-l="en">Explore disciplines</span><span data-l="zh">探索業務領域</span> <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn btn-line" href="#about"><span data-l="en">About AvalonLotus</span><span data-l="zh">關於 AvalonLotus</span></a>
       </div>
-      <ul class="stats">
-        <li><span class="stat-label"><span data-l="en">Disciplines</span><span data-l="zh">業務領域</span></span><span class="stat-num">03</span></li>
-        <li><span class="stat-label"><span data-l="en">Analytics scripts</span><span data-l="zh">分析指令碼</span></span><span class="stat-num">0</span></li>
-        <li><span class="stat-label"><span data-l="en">Tracking cookies</span><span data-l="zh">追蹤 Cookie</span></span><span class="stat-num">0</span></li>
-      </ul>
     </div>
   </section>
 
@@ -428,27 +467,54 @@ main > section, .site-footer { position: relative; z-index: 2; }
       <h2 id="disciplines-title"><span data-l="en">One principle, three<br>directions of work</span><span data-l="zh">一個原則，<br>三個工作方向</span></h2>
       <p class="lead"><span data-l="en">Each line of work answers one clause of the same sentence. The tools are built to be owned, read, and modified by the people who use them.</span><span data-l="zh">每個業務領域各自回應同一句話中的一個分句。打造這些工具，是為了讓使用者能夠擁有、閱讀與修改。</span></p>
     </div>
-    <div class="cards">
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20h5v-5h5v-5h5V5h3"/></svg>
-        <span class="card-num" aria-hidden="true">01</span>
-        <h3><span data-l="en">Elevate the self</span><span data-l="zh">提升自我</span></h3>
-        <p class="card-sub"><span data-l="en" lang="zh-Hant">提升自我</span><span data-l="zh" lang="en">Elevate the self</span></p>
-        <p><span data-l="en">Self-directed personal development: systems for deliberate practice, long-horizon planning, and the discipline to keep both.</span><span data-l="zh">自主的個人成長：支援刻意練習、長期規劃與貫徹兩者所需紀律的系統。</span></p>
+    <div class="svc">
+      <article class="svc-row">
+        <div class="svc-media">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 20h5v-5h5v-5h5V5h3"/></svg>
+          <span class="card-num" aria-hidden="true">01</span>
+        </div>
+        <div class="svc-copy">
+          <h3><span data-l="en">Elevate the self</span><span data-l="zh">提升自我</span></h3>
+          <p class="card-sub"><span data-l="en" lang="zh-Hant">提升自我</span><span data-l="zh" lang="en">Elevate the self</span></p>
+          <p class="svc-out"><span data-l="en">Self-directed personal development: systems for deliberate practice, long-horizon planning, and the discipline to keep both.</span><span data-l="zh">自主的個人成長：支援刻意練習、長期規劃與貫徹兩者所需紀律的系統。</span></p>
+          <ul class="svc-list">
+          <li><span data-l="en">Deliberate practice</span><span data-l="zh">刻意練習</span></li>
+          <li><span data-l="en">Long-horizon planning</span><span data-l="zh">長期規劃</span></li>
+          <li><span data-l="en">The discipline to keep both</span><span data-l="zh">貫徹兩者所需的紀律</span></li>
+          </ul>
+        </div>
       </article>
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
-        <span class="card-num" aria-hidden="true">02</span>
-        <h3><span data-l="en">Pursue truth</span><span data-l="zh">尋找真實</span></h3>
-        <p class="card-sub"><span data-l="en" lang="zh-Hant">尋找真實</span><span data-l="zh" lang="en">Pursue truth</span></p>
-        <p><span data-l="en">Financial literacy and independent reporting: pipelines that gather, verify, and publish without an intermediary deciding what you may read.</span><span data-l="zh">金融素養與獨立報導：從蒐集、查證到發布的處理流程，不由中介者替您決定能閱讀什麼。</span></p>
+      <article class="svc-row">
+        <div class="svc-media">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>
+          <span class="card-num" aria-hidden="true">02</span>
+        </div>
+        <div class="svc-copy">
+          <h3><span data-l="en">Pursue truth</span><span data-l="zh">尋找真實</span></h3>
+          <p class="card-sub"><span data-l="en" lang="zh-Hant">尋找真實</span><span data-l="zh" lang="en">Pursue truth</span></p>
+          <p class="svc-out"><span data-l="en">Financial literacy and independent reporting: pipelines that gather, verify, and publish without an intermediary deciding what you may read.</span><span data-l="zh">金融素養與獨立報導：從蒐集、查證到發布的處理流程，不由中介者替您決定能閱讀什麼。</span></p>
+          <ul class="svc-list">
+          <li><span data-l="en">Financial literacy</span><span data-l="zh">金融素養</span></li>
+          <li><span data-l="en">Independent reporting</span><span data-l="zh">獨立報導</span></li>
+          <li><span data-l="en">Gather, verify, publish</span><span data-l="zh">蒐集、查證、發布</span></li>
+          </ul>
+        </div>
       </article>
-      <article class="card">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18 3 8l5 4 4-7 4 7 5-4-1 10z"/></svg>
-        <span class="card-num" aria-hidden="true">03</span>
-        <h3><span data-l="en">Command the future</span><span data-l="zh">掌握未來</span></h3>
-        <p class="card-sub"><span data-l="en" lang="zh-Hant">掌握未來</span><span data-l="zh" lang="en">Command the future</span></p>
-        <p><span data-l="en">AI-augmented productivity: agent workflows and desktop tooling that keep the operator in command rather than in the loop.</span><span data-l="zh">AI 輔助生產力：AI 代理工作流程與桌面工具，讓操作者居於指揮地位，而非被納入自動化循環之中。</span></p>
+      <article class="svc-row">
+        <div class="svc-media">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 18 3 8l5 4 4-7 4 7 5-4-1 10z"/></svg>
+          <span class="card-num" aria-hidden="true">03</span>
+        </div>
+        <div class="svc-copy">
+          <h3><span data-l="en">Command the future</span><span data-l="zh">掌握未來</span></h3>
+          <p class="card-sub"><span data-l="en" lang="zh-Hant">掌握未來</span><span data-l="zh" lang="en">Command the future</span></p>
+          <p class="svc-out"><span data-l="en">AI-augmented productivity: agent workflows and desktop tooling that keep the operator in command rather than in the loop.</span><span data-l="zh">AI 輔助生產力：AI 代理工作流程與桌面工具，讓操作者居於指揮地位，而非被納入自動化循環之中。</span></p>
+          <ul class="svc-list">
+          <li><span data-l="en">AI-augmented productivity</span><span data-l="zh">AI 輔助生產力</span></li>
+          <li><span data-l="en">Agent workflows</span><span data-l="zh">AI 代理工作流程</span></li>
+          <li><span data-l="en">Desktop tooling</span><span data-l="zh">桌面工具</span></li>
+          </ul>
+        </div>
       </article>
     </div>
   </section>
@@ -460,21 +526,30 @@ main > section, .site-footer { position: relative; z-index: 2; }
       <h2 id="about-title"><span data-l="en">Built to be owned, not rented</span><span data-l="zh">為擁有而打造，不為租用</span></h2>
       <span class="rule-sm" aria-hidden="true"></span>
     </div>
-    <ul class="why">
-      <li>
+    <ul class="bento">
+      <li class="tile tile-wide">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.7-8.7M16 7l2.5 2.5M13.5 9.5l2 2"/></svg>
-        <h3><span data-l="en">Built in-house</span><span data-l="zh">自行打造</span></h3>
-        <p><span data-l="en">AvalonLotus builds what it uses, on infrastructure and domains the company holds outright.</span><span data-l="zh">AvalonLotus 自行打造所使用的工具，並架設於公司完全持有的基礎設施與網域上。</span></p>
+        <div><h3><span data-l="en">Built in-house</span><span data-l="zh">自行打造</span></h3><p><span data-l="en">AvalonLotus builds what it uses, on infrastructure and domains the company holds outright.</span><span data-l="zh">AvalonLotus 自行打造所使用的工具，並架設於公司完全持有的基礎設施與網域上。</span></p></div>
       </li>
-      <li>
+      <li class="tile">
+        <span class="stat-num">03</span>
+        <span class="stat-label"><span data-l="en">Disciplines</span><span data-l="zh">業務領域</span></span>
+      </li>
+      <li class="tile">
+        <span class="stat-num">0</span>
+        <span class="stat-label"><span data-l="en">Analytics scripts</span><span data-l="zh">分析指令碼</span></span>
+      </li>
+      <li class="tile tile-wide">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></svg>
-        <h3><span data-l="en">Independent</span><span data-l="zh">獨立自主</span></h3>
-        <p><span data-l="en">Domain, code, and data held directly — no platform between the work and the people who rely on it.</span><span data-l="zh">網域、程式碼與資料皆由公司直接持有；工作成果與仰賴這些成果的人之間，沒有平台居中。</span></p>
+        <div><h3><span data-l="en">Independent</span><span data-l="zh">獨立自主</span></h3><p><span data-l="en">Domain, code, and data held directly — no platform between the work and the people who rely on it.</span><span data-l="zh">網域、程式碼與資料皆由公司直接持有；工作成果與仰賴這些成果的人之間，沒有平台居中。</span></p></div>
       </li>
-      <li>
+      <li class="tile tile-wide">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/><path d="m4 4 16 16"/></svg>
-        <h3><span data-l="en">No tracking</span><span data-l="zh">不追蹤</span></h3>
-        <p><span data-l="en">This site runs no analytics scripts and sets no tracking cookies. The policy below states exactly what is collected.</span><span data-l="zh">本網站不執行分析指令碼，也不設定追蹤 Cookie。下方政策確切說明蒐集哪些資訊。</span></p>
+        <div><h3><span data-l="en">No tracking</span><span data-l="zh">不追蹤</span></h3><p><span data-l="en">This site runs no analytics scripts and sets no tracking cookies. The policy below states exactly what is collected.</span><span data-l="zh">本網站不執行分析指令碼，也不設定追蹤 Cookie。下方政策確切說明蒐集哪些資訊。</span></p></div>
+      </li>
+      <li class="tile">
+        <span class="stat-num">0</span>
+        <span class="stat-label"><span data-l="en">Tracking cookies</span><span data-l="zh">追蹤 Cookie</span></span>
       </li>
     </ul>
   </section>
@@ -678,26 +753,56 @@ main > section, .site-footer { position: relative; z-index: 2; }
 </main>
 
 <footer id="contact" class="site-footer" data-nav="contact">
-  <div class="foot-top">
-    <a class="brand" href="#top" aria-label="AvalonLotus International Pty., Ltd, back to top" data-aria-zh="AvalonLotus International Pty., Ltd，回到頁首">
-      <svg class="mark" viewBox="0 0 1331 992" aria-hidden="true" focusable="false"><use href="#lotus"/></svg>
-      <span class="brand-text">
-        <span class="brand-word">AVALONLOTUS</span>
-        <span class="brand-sub">International Pty., Ltd</span>
-      </span>
-    </a>
-    <div class="foot-contact">
-      <p class="eyebrow"><span data-l="en">Contact</span><span data-l="zh">聯絡方式</span></p>
-      <a class="foot-mail" href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com</a>
+  <div class="closing">
+    <p class="eyebrow"><span data-l="en">Contact</span><span data-l="zh">聯絡方式</span></p>
+    <h2><span data-l="en">Elevate the self,<br>pursue truth,<br><span class="gold">command the future.</span></span><span data-l="zh">提升自我，<br>尋找真實，<br><span class="gold">掌握未來。</span></span></h2>
+    <div class="actions">
+      <a class="btn btn-white" href="mailto:Lien.Founder@AvalonLotus.com"><span data-l="en">Get in touch</span><span data-l="zh">與我們聯絡</span> <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-line" href="#disciplines"><span data-l="en">Explore disciplines</span><span data-l="zh">探索業務領域</span></a>
+    </div>
+  </div>
+  <div class="foot-cols">
+    <div class="foot-brand">
+      <a class="brand" href="#top" aria-label="AvalonLotus International Pty., Ltd, back to top" data-aria-zh="AvalonLotus International Pty., Ltd，回到頁首">
+        <svg class="mark" viewBox="0 0 1331 992" aria-hidden="true" focusable="false"><use href="#lotus"/></svg>
+        <span class="brand-text">
+          <span class="brand-word">AVALONLOTUS</span>
+          <span class="brand-sub">International Pty., Ltd</span>
+        </span>
+      </a>
+      <span class="foot-motto"><span data-l="en" lang="zh-Hant">提升自我 · 尋找真實 · 掌握未來</span><span data-l="zh" lang="en">Elevate the self · Pursue truth · Command the future</span></span>
+    </div>
+    <div class="foot-col">
+      <h3><span data-l="en">Disciplines</span><span data-l="zh">業務領域</span></h3>
+      <ul>
+        <li><a href="#disciplines"><span data-l="en">Elevate the self</span><span data-l="zh">提升自我</span></a></li>
+        <li><a href="#disciplines"><span data-l="en">Pursue truth</span><span data-l="zh">尋找真實</span></a></li>
+        <li><a href="#disciplines"><span data-l="en">Command the future</span><span data-l="zh">掌握未來</span></a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3><span data-l="en">About</span><span data-l="zh">關於我們</span></h3>
+      <ul>
+        <li><a href="#about"><span data-l="en">About the company</span><span data-l="zh">關於公司</span></a></li>
+        <li><a href="#policies"><span data-l="en">Policies</span><span data-l="zh">政策</span></a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3><span data-l="en">Legal</span><span data-l="zh">法律資訊</span></h3>
+      <ul>
+        <li><a href="#privacy"><span data-l="en">Privacy policy</span><span data-l="zh">隱私權政策</span></a></li>
+        <li><a href="#terms"><span data-l="en">Terms of service</span><span data-l="zh">服務條款</span></a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3><span data-l="en">Contact</span><span data-l="zh">聯絡方式</span></h3>
+      <ul>
+        <li><a href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com</a></li>
+      </ul>
     </div>
   </div>
   <div class="foot-bottom">
     <span><span data-l="en">AvalonLotus International Pty., Ltd</span><span data-l="zh">亞蓮國際股份有限公司</span></span>
-    <span class="foot-motto"><span data-l="en" lang="zh-Hant">提升自我 · 尋找真實 · 掌握未來</span><span data-l="zh" lang="en">Elevate the self · Pursue truth · Command the future</span></span>
-    <nav class="foot-links" aria-label="Legal" data-aria-zh="法律資訊">
-      <a href="#privacy"><span data-l="en">Privacy</span><span data-l="zh">隱私權</span></a>
-      <a href="#terms"><span data-l="en">Terms</span><span data-l="zh">服務條款</span></a>
-    </nav>
   </div>
 </footer>
 
