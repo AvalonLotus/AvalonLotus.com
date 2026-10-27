@@ -21,12 +21,13 @@ cleanup(){
 }
 trap cleanup EXIT
 
-step(){  # step <label> <command...>: ok, or FAIL with the first lines of the output
+step(){  # step <label> <command...>: ok plus its warning: lines, or FAIL with the first lines of the output
   local label="$1" out
   shift
   printf '%-28s' "$label"
   if out=$("$@" 2>&1); then
     echo ok
+    printf '%s\n' "$out" | grep '^warning:' | sed 's/^/    /'
   else
     echo FAIL
     printf '%s\n' "$out" | head -30 | sed 's/^/    /'
@@ -71,7 +72,8 @@ f.onload = function () {
     if (d.documentElement.lang !== lang) out.push(lang + ': html lang is ' + d.documentElement.lang);
     if (shown(wrong) !== 0) out.push(lang + ': ' + shown(wrong) + ' data-l=' + wrong + ' spans are displayed');
     if (shown(key) === 0) out.push(lang + ': no data-l=' + key + ' span is displayed');
-    if ((d.title.indexOf('提升自我') >= 0) !== (lang === 'zh-Hant')) out.push(lang + ': title is ' + d.title);
+    var t = d.querySelector('title');
+    if (d.title !== (lang === 'zh-Hant' ? t.dataset.zh : t.dataset.en)) out.push(lang + ': title is ' + d.title);
   }
   var first = d.documentElement.lang, other = first === 'en' ? 'zh-Hant' : 'en';
   report(first);
@@ -154,9 +156,24 @@ rules = [(r"sk-ant-[A-Za-z0-9_-]{20,}", "looks like an API key", None),
          (r"\sstyle=\"", "H2 inline style attribute", ".html"),
          (r"!important", "H2 !important", ".html"),
          (r"https://(?!www\.avalonlotus\.com|fonts\.googleapis\.com|fonts\.gstatic\.com)", "H3 new external host", ".html")]
-known = set(git("show", f"{base}:index.html").splitlines())  # a page split out of index.html carries its lines unchanged
-bad = [f"{src}:{n}: {label}" for src, n, text in added for pattern, label, ext in rules
-       if (not ext or src.endswith(ext)) and re.search(pattern, text) and text not in known]
+# each page split out of base's index.html carries its lines unchanged: per file, a line is excluded at most as many
+# times as it occurs in base's index.html (none when base has no index.html); the API key rule is never excluded
+from collections import Counter
+listed = subprocess.run(["git", "cat-file", "-e", f"{base}:index.html"], capture_output=True).returncode == 0
+base_lines = Counter(git("show", f"{base}:index.html").splitlines()) if listed else Counter()
+secret = {"looks like an API key"}
+remaining = {}
+bad = []
+for src, n, text in added:
+    known = remaining.setdefault(src, Counter(base_lines))
+    for pattern, label, ext in rules:
+        if (ext and not src.endswith(ext)) or not re.search(pattern, text):
+            continue
+        if label not in secret and known[text] > 0:
+            known[text] -= 1
+            print(f"warning: {src}:{n}: {label} excluded, line is in {base}:index.html", file=sys.stderr)
+            continue
+        bad.append(f"{src}:{n}: {label}")
 head = None
 for n, line in enumerate(open("CODING_STANDARDS.md", encoding="utf-8").read().split("\n"), 1):
     head = (head or line.count("|")) if line.startswith("|") else None

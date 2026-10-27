@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Static self-check of every *.html page: ids, anchors, language pairs, assets, CNAME. Exit 1 with one line per problem."""
+"""Static self-check of every *.html page, parsed: ids, anchors, language pairs, assets, CNAME. Exit 1 with one line per problem."""
 import os
 import re
 import sys
@@ -38,8 +38,8 @@ class Page(HTMLParser):
                 self.refs.append((line, value[1:]))
             elif key == "href" and re.match(r"[\w-]+\.html(#|$)", value):
                 self.pages.append((line, value))
-            elif key == "href" and value and not re.match(r"[a-z]+:", value):
-                self.problems.append(f"{line}: href {value!r} is neither #id, page.html[#id] nor an absolute URL")
+            elif key == "href" and value and not re.match(r"(https|mailto):", value):
+                self.problems.append(f"{line}: href {value!r} is neither #id, page.html[#id], https: nor mailto:")
             elif key == "aria-labelledby" and value:
                 self.refs.append((line, value))
         for key in ("src", "poster"):
@@ -128,21 +128,86 @@ def check(path="index.html"):
     return [f"{path}:{b}" for b in bad]
 
 
-def shared(pages):
-    """header, menu, footer and the background/glow blocks are byte-identical on every page"""
-    blocks = [r"<style>.*?</style>", r'<header class="site-header">.*?</header>', r'<div id="menu".*?</nav>\n</div>',
-              r'<footer class="site-footer">.*?</footer>', r'<div id="bg".*?</canvas>', r"<script>\n\(function \(\) \{\n  var root.*\Z"]
-    bad = []
-    first = open(pages[0], encoding="utf-8").read()
-    for pattern in blocks:
-        want = re.search(pattern, first, re.S)
-        if not want:
-            bad.append(f"{pages[0]}: block {pattern[:30]!r} missing")
+class Events(HTMLParser):
+    """flat list of parse events: ("start", tag, sorted attrs), ("end", tag), ("data", text); data whitespace collapsed"""
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.events = []
+
+    def handle_starttag(self, tag, attrs):
+        self.events.append(("start", tag, tuple(sorted(attrs, key=lambda a: a[0]))))
+        if tag in VOID:
+            self.events.append(("end", tag))
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag not in VOID:
+            self.events.append(("end", tag))
+
+    def handle_endtag(self, tag):
+        if tag not in VOID:
+            self.events.append(("end", tag))
+
+    def handle_data(self, data):
+        text = " ".join(data.split())
+        if text:
+            self.events.append(("data", text))
+
+
+SHARED = [("style", None), ("header", "site-header"), ("div", "menu"), ("footer", "site-footer"), ("div", "bg"),
+          ("canvas", "fluid"), ("script", None)]
+
+
+def subtrees(events, tag, mark):
+    """every element <tag> whose class contains mark or whose id is mark (all of them when mark is None), as event lists"""
+    found = []
+    for n, event in enumerate(events):
+        if event[0] != "start" or event[1] != tag:
             continue
+        attrs = dict(event[2])
+        if mark and mark not in attrs.get("class", "").split() and attrs.get("id") != mark:
+            continue
+        depth = 0
+        for m in range(n, len(events)):
+            if events[m][:2] == ("start", tag):
+                depth += 1
+            elif events[m][:2] == ("end", tag):
+                depth -= 1
+                if depth == 0:
+                    found.append(events[n:m + 1])
+                    break
+    return found
+
+
+def hrefs(tree):
+    return {dict(e[2]).get("href", "").partition("#")[0] for e in tree if e[0] == "start"}
+
+
+def shared(pages):
+    """parsed structure of the shared blocks is identical on every page; nav, #menu and footer link every page"""
+    parsed = {}
+    for page in pages:
+        p = Events()
+        p.feed(open(page, encoding="utf-8").read())
+        p.close()
+        parsed[page] = p.events
+    bad = []
+    first = pages[0]
+    for tag, mark in SHARED:
+        name = f"<{tag}{' ' + mark if mark else ''}>"
+        want = subtrees(parsed[first], tag, mark)
+        if not want:
+            bad.append(f"{first}: {name} missing")
         for other in pages[1:]:
-            got = re.search(pattern, open(other, encoding="utf-8").read(), re.S)
-            if not got or got.group(0) != want.group(0):
-                bad.append(f"{other}: block {pattern[:30]!r} differs from {pages[0]}")
+            if subtrees(parsed[other], tag, mark) != want:
+                bad.append(f"{other}: {name} differs from {first}")
+    for page in pages:
+        for label, tag, mark in (("nav", "nav", None), ("#menu", "div", "menu"), ("footer", "footer", "site-footer")):
+            trees = subtrees(parsed[page], tag, mark)
+            if label == "nav":
+                trees = [tr for tr in trees if ("start", "ul", (("class", "nav"),)) in tr]
+            linked = set().union(*map(hrefs, trees)) if trees else set()
+            bad += [f"{page}: {label} has no link to {target}" for target in pages if target not in linked]
     return bad
 
 

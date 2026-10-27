@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title data-zh="聯絡我們｜AvalonLotus｜提升自我 · 尋找真實 · 掌握未來">Contact — AvalonLotus — Elevate the self · Pursue truth · Command the future</title>
+<title data-zh="聯絡我們｜AvalonLotus">Contact — AvalonLotus</title>
 <meta name="description" content="AvalonLotus develops tools and educational content focused on financial literacy, AI-augmented productivity, and self-directed personal development.">
 <meta property="og:title" content="AvalonLotus">
 <meta property="og:description" content="Elevate the self · Pursue truth · Command the future.">
@@ -251,6 +251,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
 
 /* trial: vercel-style layout */
 .btn-white { background: var(--ink-invert); border-color: var(--ink-invert); color: var(--ink); }
+.btn-mail { text-transform: none; }
 .btn-white:hover { background: var(--gold-pale); border-color: var(--gold-pale); }
 .svc { display: grid; gap: clamp(56px, 8vw, 112px); }
 .svc-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; gap: clamp(32px, 5vw, 80px); }
@@ -271,6 +272,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
 .tile-wide { grid-column: span 2; }
 .tile h3 { margin: 0 0 10px; font: 700 12.5px/1.4 var(--font-ui); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-invert); }
 .tile p { margin: 0; font-size: 14.5px; color: var(--text-dim); }
+.tile p a { color: var(--gold); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .tile-wide p { max-width: 34em; font-size: 16px; color: var(--text); }
 .tile .stat-num { font-size: clamp(56px, 6vw, 88px); }
 .closing { padding-bottom: clamp(56px, 7vw, 88px); margin-bottom: clamp(48px, 6vw, 72px); border-bottom: 1px solid var(--line); text-align: center; }
@@ -280,7 +282,8 @@ main > section, .site-footer { position: relative; z-index: 2; }
 .foot-cols .foot-motto { display: block; margin-top: 20px; }
 .foot-col h3 { margin: 0 0 16px; font: 600 11px/1.4 var(--font-ui); letter-spacing: .2em; text-transform: uppercase; color: var(--ink-invert); }
 .foot-col ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-.foot-col a { overflow-wrap: anywhere; font-size: 14px; color: var(--text-dim); transition: color .25s; }
+.foot-col a { font-size: 14px; color: var(--text-dim); transition: color .25s; }
+.foot-col a[href^="mailto:"] { font-size: 13px; }
 .foot-col a:hover { color: var(--gold); }
 :root[lang="zh-Hant"] .foot-col h3 { font-size: 13.5px; letter-spacing: .12em; }
 :root[lang="zh-Hant"] .tile h3 { font-size: 15.5px; letter-spacing: .1em; }
@@ -410,7 +413,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
     </ul>
   </nav>
   <button class="lang-btn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3C9.5 5.6 8.2 8.6 8.2 12s1.3 6.4 3.8 9"/></svg><span data-l="en" lang="zh-Hant">中文</span><span data-l="zh" lang="en">EN</span></button>
-  <a class="btn btn-white btn-sm head-cta" href="mailto:Lien.Founder@AvalonLotus.com"><span data-l="en">Get in touch</span><span data-l="zh">與我們聯絡</span></a>
+  <a class="btn btn-white btn-sm head-cta" href="contact.html"><span data-l="en">Get in touch</span><span data-l="zh">與我們聯絡</span></a>
   <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu" data-aria-zh="選單"><span></span><span></span><span></span></button>
 </header>
 
@@ -437,7 +440,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
       <p class="eyebrow"><span data-l="en">Contact</span><span data-l="zh">聯絡方式</span></p>
       <h1 id="contact-title"><span data-l="en">Get in touch</span><span data-l="zh">與我們聯絡</span></h1>
       <div class="actions">
-        <a class="btn btn-white" href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-white btn-mail" href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com <span class="arrow" aria-hidden="true">→</span></a>
       </div>
     </div>
   </section>
@@ -449,7 +452,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
     <p class="eyebrow"><span data-l="en">Contact</span><span data-l="zh">聯絡方式</span></p>
     <h2><span data-l="en">Elevate the self,<br>pursue truth,<br><span class="gold">command the future.</span></span><span data-l="zh">提升自我，<br>尋找真實，<br><span class="gold">掌握未來。</span></span></h2>
     <div class="actions">
-      <a class="btn btn-white" href="mailto:Lien.Founder@AvalonLotus.com"><span data-l="en">Get in touch</span><span data-l="zh">與我們聯絡</span> <span class="arrow" aria-hidden="true">→</span></a>
+      <a class="btn btn-white" href="contact.html"><span data-l="en">Get in touch</span><span data-l="zh">與我們聯絡</span> <span class="arrow" aria-hidden="true">→</span></a>
       <a class="btn btn-line" href="disciplines.html"><span data-l="en">Explore disciplines</span><span data-l="zh">探索業務領域</span></a>
     </div>
   </div>
@@ -489,7 +492,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
     <div class="foot-col">
       <h3><span data-l="en">Contact</span><span data-l="zh">聯絡方式</span></h3>
       <ul>
-        <li><a href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder@AvalonLotus.com</a></li>
+        <li><a href="mailto:Lien.Founder@AvalonLotus.com">Lien.Founder<wbr>@AvalonLotus.com</a></li>
       </ul>
     </div>
   </div>
@@ -531,9 +534,10 @@ main > section, .site-footer { position: relative; z-index: 2; }
   });
 
   // active nav item: the link to the current page
-  var page = location.pathname.split('/').pop() || 'index.html';
+  var bare = function (p) { return p.replace(/\.html$/, '') || 'index'; };
+  var page = bare(location.pathname.split('/').pop());
   [].forEach.call(document.querySelectorAll('.nav a, #menu a'), function (l) {
-    if (l.getAttribute('href') === page) l.setAttribute('aria-current', 'page');
+    if (bare(l.getAttribute('href')) === page) l.setAttribute('aria-current', 'page');
   });
 
   // overlay menu

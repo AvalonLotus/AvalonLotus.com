@@ -20,11 +20,12 @@
 | H1 | 每段使用者看得到的文字寫成同一個父元素底下成對的 `<span data-l="en">` 與 `<span data-l="zh">`；`aria-label` 配 `data-aria-zh` |
 | H2 | 樣式只寫在 `<style>` 區塊；不用 `style=` 屬性，不用 `!important` |
 | H3 | 外部連線只到 `fonts.googleapis.com` 與 `fonts.gstatic.com`；每個 URL 用 `https://` |
-| H4 | 每個 `href="#id"`、`aria-labelledby`、`aria-controls` 指到的 id 存在於 `index.html`，且 id 唯一 |
+| H4 | 每個 `*.html`：`href="#id"`、`aria-labelledby`、`aria-controls` 指到的 id 存在於同一頁，`href="頁面.html#id"` 的頁面與 id 存在，id 在每頁唯一；`href` 只用 `#id`、`頁面.html[#id]`、`https:`、`mailto:` |
 | H5 | 圖片與影片放在 repo 根目錄，用相對路徑引用；`#bg` 的 `background-image` 與 `<video>` 的 `<source>` 一起新增 |
 | H6 | 顏色、字體、間距寫進 `:root` 的自訂屬性；取自 `AvalonLotus CIS` `tokens.json` 的值在同一行註解寫 token 名稱 |
 | H7 | 裝飾用 `<svg>` 加 `aria-hidden="true" focusable="false"` |
 | H8 | 新增區段加 `id`、`data-nav`、`aria-labelledby`，並在 `.nav` 與 `#menu` 各加一個連結 |
+| H10 | 新增頁面在每頁的 `.nav`、`#menu` 與頁尾各有一個連結；`<style>`、導覽列、`#menu`、頁尾、`#bg`、`#fluid` 與所有 `<script>` 在每頁解析後的結構相同 |
 | H9 | 語言切換靠 `<html lang>`：`[data-l]` 的顯示與隱藏只由 `:root[lang]` 的 CSS 規則決定，不靠 script 執行 |
 
 ## JavaScript
@@ -43,7 +44,7 @@
 | 代號 | 規則 |
 |---|---|
 | T1 | 每個修掉的 bug 在 `test_site.py` 或 `check.sh` 的探針加一個會抓到它的檢查；輸入選「拿掉這個修正就會失敗」的值 |
-| T2 | 測試讀 `index.html` 解析後的結構或 Chrome 算出的樣式；不比對原始碼文字 |
+| T2 | 測試讀每個 `*.html` 解析後的結構或 Chrome 算出的樣式；不比對原始碼文字；例外：`check.sh` 的新增行規則逐行比對 diff |
 | T3 | 新增的檢查要故意放錯一次，確認它會失敗後再還原 |
 
 ## 維護這份檔案
