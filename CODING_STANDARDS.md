@@ -27,7 +27,7 @@
 | H8 | 新增區段加 `id`、`data-nav`、`aria-labelledby`，並在 `.nav` 與 `#menu` 各加一個連結 |
 | H9 | 語言切換靠 `<html lang>`：`[data-l]` 的顯示與隱藏只由 `:root[lang]` 的 CSS 規則決定，不靠 script 執行 |
 | H10 | 新增頁面在每頁的 `.nav`、`#menu` 與頁尾各有一個連結；`<style>`、導覽列、`#menu`、頁尾、`#bg`、`#fluid` 與所有 `<script>` 在每頁解析後的結構相同；唯一例外：contact.html 上 `.btn-white` 的 Get in touch 按鈕用 `mailto:`，比對時視同 `contact.html` |
-| H11 | 保護區與 main 保持逐字相同，改動前取得老闆同意：`:root` 規則、`.hero` 規則、`.hero::before`（桌機與手機）、`#bg`、`<video>` 與其 `<source>`、`#fluid`、`data-dye` 屬性與 `[data-dye]` 規則、影片 script、WebGL script |
+| H11 | 來源：老闆 2026-10-27 經 Alice 轉達的指示「背景與光霧與 main 相同」，repo 內無原文可查證。保護區與 main 保持相同，改動前取得老闆同意：`:root` 規則、`.hero` 規則、`.hero::before`（桌機與手機）、`#bg`、`<video>` 與其 `<source>`、`#fluid`、`data-dye` 屬性與 `[data-dye]` 規則、影片 script、WebGL script；`:root` 中已無引用的自訂屬性可刪除 |
 
 ## JavaScript
 
