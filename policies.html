@@ -21,7 +21,11 @@
   if (l === 'zh-Hant') t.textContent = t.dataset.zh;
 })();
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+SC:wght@700&family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --ink: #080404; /* color.ink */
@@ -31,7 +35,7 @@
   --weight-title: 700; /* font.weight-title */
   --tracking-title: 0.015em; /* font.tracking-title */
   --font-cjk: 'Noto Serif TC', serif; /* font.family-cjk */
-  --font-ui: 'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-ui: 'Noto Sans TC', sans-serif; /* font.family-ui-tc */
   --gold-pale: #fbf2c6;
   --gold-deep: #cba43a;
   --gold-metal: linear-gradient(168deg, var(--gold-pale) 6%, var(--gold) 40%, var(--gold-deep) 62%, var(--gold) 80%, var(--gold-pale) 100%);
@@ -118,10 +122,9 @@ a:hover > .arrow { transform: translateX(4px); }
 @supports (animation-timeline: scroll()) {
   .site-header::before { animation: reveal auto linear both; animation-timeline: scroll(root); animation-range: 0px 140px; }
 }
-.brand { display: flex; align-items: center; gap: 10px; color: var(--ink-invert); }
-.brand .mark { width: 52px; }
-.brand-text { display: flex; flex-direction: column; gap: 6px; }
-.brand-word { font: var(--weight-title) 22px/1 var(--font-title); letter-spacing: var(--tracking-title); }
+.brand { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; color: var(--ink-invert); }
+.brand-logo { display: block; height: 24px; width: auto; aspect-ratio: 4386.5063 / 741.9705; object-fit: contain; flex: none; }
+.brand-text { display: flex; flex-direction: column; }
 .brand-sub { font: 600 8.5px/1 var(--font-ui); letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim); }
 
 .site-header > nav { margin-inline: auto; }
@@ -310,7 +313,7 @@ main > section, .site-footer { position: relative; z-index: 2; }
 /* language */
 :root[lang="zh-Hant"] [data-l="en"], :root:not([lang="zh-Hant"]) [data-l="zh"] { display: none !important; }
 :root[lang="zh-Hant"] {
-  --font-ui: 'Montserrat', 'Noto Serif TC', serif;
+  --font-ui: 'Noto Sans TC', sans-serif;
   --font-title: 'Cormorant SC', 'Noto Serif TC', serif;
 }
 :root[lang="zh-Hant"] body { line-height: 1.85; }
@@ -357,8 +360,6 @@ main > section, .site-footer { position: relative; z-index: 2; }
 }
 @media (max-width: 599px) {
   :root { --head-h: 74px; }
-  .brand .mark { width: 48px; }
-  .brand-word { font-size: 20px; }
   .brand-sub { font-size: 8px; letter-spacing: .14em; }
   .hero h1 { font-size: clamp(38px, 11vw, 50px); }
   .actions .btn { flex: 1 1 100%; }
@@ -377,7 +378,6 @@ main > section, .site-footer { position: relative; z-index: 2; }
 }
 @media (max-height: 500px) and (orientation: landscape) {
   :root { --head-h: 64px; }
-  .brand .mark { width: 48px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -397,9 +397,8 @@ main > section, .site-footer { position: relative; z-index: 2; }
 
 <header class="site-header">
   <a class="brand" href="index.html" aria-label="AvalonLotus International Pty., Ltd, back to top" data-aria-zh="AvalonLotus International Pty., Ltd，回到頁首">
-    <svg class="mark" viewBox="0 0 1331 992" aria-hidden="true" focusable="false"><use href="#lotus"/></svg>
+    <img class="brand-logo" src="logo-horizontal.svg" alt="" width="142" height="24">
     <span class="brand-text">
-      <span class="brand-word">AVALONLOTUS</span>
       <span class="brand-sub">International Pty., Ltd</span>
     </span>
   </a>
@@ -648,9 +647,8 @@ main > section, .site-footer { position: relative; z-index: 2; }
   <div class="foot-cols">
     <div class="foot-brand">
       <a class="brand" href="index.html" aria-label="AvalonLotus International Pty., Ltd, back to top" data-aria-zh="AvalonLotus International Pty., Ltd，回到頁首">
-        <svg class="mark" viewBox="0 0 1331 992" aria-hidden="true" focusable="false"><use href="#lotus"/></svg>
+        <img class="brand-logo" src="logo-horizontal.svg" alt="" width="142" height="24">
         <span class="brand-text">
-          <span class="brand-word">AVALONLOTUS</span>
           <span class="brand-sub">International Pty., Ltd</span>
         </span>
       </a>
