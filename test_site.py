@@ -186,6 +186,20 @@ def hrefs(tree):
     return {dict(e[2]).get("href", "").partition("#")[0] for e in tree if e[0] == "start"}
 
 
+MAIL = "mailto:Lien.Founder@AvalonLotus.com"
+
+
+def self_cta(page, event):
+    """on contact.html the white "Get in touch" buttons mail instead of linking to the page itself; compare them as contact.html"""
+    if page == "contact.html" and event[0] == "start" and event[1] == "a":
+        attrs = dict(event[2])
+        if attrs.get("href") == MAIL and "btn-white" in attrs.get("class", "").split() \
+                and "btn-mail" not in attrs.get("class", "").split():
+            attrs["href"] = "contact.html"
+            return ("start", "a", tuple(sorted(attrs.items())))
+    return event
+
+
 def shared(pages):
     """parsed structure of the shared blocks is identical on every page; nav, #menu and footer link every page"""
     parsed = {}
@@ -193,7 +207,7 @@ def shared(pages):
         p = Events()
         p.feed(open(page, encoding="utf-8").read())
         p.close()
-        parsed[page] = p.events
+        parsed[page] = [self_cta(page, e) for e in p.events]
     bad = []
     first = pages[0]
     for tag, mark in SHARED:
