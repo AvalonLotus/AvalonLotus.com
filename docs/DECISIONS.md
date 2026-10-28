@@ -11,13 +11,13 @@
 | 2026-10-28 15:29 | `--font-ui` 由 Montserrat 改為 Noto Sans TC | 老闆指示套用 CIS；`CIS/tokens.json` 第 12、42、44 行（`font.family-ui-tc`、wght 400）；`CIS/DESIGN.md` 第 232 行 | `git revert 97ce734` |
 | 2026-10-28 15:29 | 頁首與頁尾改用 `logo-horizontal.svg`，高 24px，`aspect-ratio` 鎖 4386.5063 / 741.9705 | `CIS/DESIGN.md` 第 107–108 行橫式主標、第 147 行螢幕最小尺寸 | `git revert 97ce734` |
 | 2026-10-28 15:29 | 加入 `favicon.ico`、`icon.svg`、`apple-touch-icon.png`、`icon-192.png`、`icon-512.png`、`icon-mask.png`、`manifest.json` | `CIS/DESIGN.md` 第 361–363、367–370、385 行 | `git revert 97ce734 c4e57bf` |
-| 2026-10-28 15:39 | about 頁新增創辦人區塊；目前已從 about.html 移除 | 老闆在 Website bot 對話中直接提供；原文存在 repo 外的 box 檔案 `/workspace/site/private/founder-source.md`；發布前待老闆最終確認 | 老闆確認文字後重新加入；`git revert 12da802` 還原區塊 |
+| 2026-10-28 15:39 | about 頁新增創辦人區塊；目前已從 about.html 移除 | 老闆在 Website bot 對話中直接提供；原文見 `docs/founder-source.md`（出生日期只留年份）；發布前待老闆最終確認 | 老闆確認文字後重新加入；`git revert be66e82` 還原區塊 |
 | 2026-10-29 01:20 | 創辦人區塊加 `data-l` 中英對照，`.founder-en` 改 15.5px | Code Review 第四輪 | `git revert 1165cc8` |
 | 2026-10-29 01:20 | contact.html 兩顆 Get in touch 按鈕改 `mailto:Lien.Founder@AvalonLotus.com` | Code Review 第四輪 | `git revert fc98611` |
-| 2026-10-29 01:30 | 新增 H11 保護區 | 老闆常設指示：背景與光霧與 main 相同 | `git revert 58e734c` |
-| 2026-10-29 01:30 | 保護區外的 `--gold-pale`、`--gold-metal` 使用改 `var(--gold)` | `CIS/tokens.json` 第 21 行 `color.gold` #e9cf54 | `git revert 87d1d66` |
-| 2026-10-29 01:35 | 刪除 `:root` 未使用的 `--gold-pale`、`--gold-deep`、`--gold-metal` | 已無引用；畫面不變 | `git revert 8190f0d` |
-| 2026-10-29 01:30 | 介面字重 500、600、700 改 400 | `CIS/tokens.json` 第 39、44 行（400）；第 32、38 行（700 只用於標準字） | `git revert f539036` |
+| 2026-10-29 01:30 | 新增 H11 保護區 | 老闆常設指示：背景與光霧與 main 相同 | `git revert 019c4aa` |
+| 2026-10-29 01:30 | 保護區外的 `--gold-pale`、`--gold-metal` 使用改 `var(--gold)` | `CIS/tokens.json` 第 21 行 `color.gold` #e9cf54 | `git revert 47cf4dd` |
+| 2026-10-29 01:35 | 刪除 `:root` 未使用的 `--gold-pale`、`--gold-deep`、`--gold-metal` | 已無引用；畫面不變 | `git revert 2bf75c9` |
+| 2026-10-29 01:30 | 介面字重 500、600、700 改 400 | `CIS/tokens.json` 第 39、44 行（400）；第 32、38 行（700 只用於標準字） | `git revert 86b1a1e` |
 
 ## 待老闆決定
 
