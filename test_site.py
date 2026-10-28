@@ -38,8 +38,11 @@ class Page(HTMLParser):
                 self.refs.append((line, value[1:]))
             elif key == "href" and re.match(r"[\w-]+\.html(#|$)", value):
                 self.pages.append((line, value))
+            elif (key == "href" and tag == "link" and a.get("rel") in ("icon", "apple-touch-icon", "manifest")
+                  and re.fullmatch(r"/[\w-]+\.(ico|svg|png|json)", value)):
+                self.assets.append((line, value[1:]))  # same-site icon or manifest: the file must exist
             elif key == "href" and value and not re.match(r"(https|mailto):", value):
-                self.problems.append(f"{line}: href {value!r} is neither #id, page.html[#id], https: nor mailto:")
+                self.problems.append(f"{line}: href {value!r} is neither #id, page.html[#id], https:, mailto: nor a same-site icon/manifest")
             elif key == "aria-labelledby" and value:
                 self.refs.append((line, value))
         for key in ("src", "poster"):

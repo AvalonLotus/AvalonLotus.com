@@ -20,7 +20,7 @@
 | H1 | 每段使用者看得到的文字寫成同一個父元素底下成對的 `<span data-l="en">` 與 `<span data-l="zh">`；`aria-label` 配 `data-aria-zh` |
 | H2 | 樣式只寫在 `<style>` 區塊；不用 `style=` 屬性，不用 `!important` |
 | H3 | 外部連線只到 `fonts.googleapis.com` 與 `fonts.gstatic.com`；每個 URL 用 `https://` |
-| H4 | 每個 `*.html`：`href="#id"`、`aria-labelledby`、`aria-controls` 指到的 id 存在於同一頁，`href="頁面.html#id"` 的頁面與 id 存在，id 在每頁唯一；`href` 只用 `#id`、`頁面.html[#id]`、`https:`、`mailto:` |
+| H4 | 每個 `*.html`：`href="#id"`、`aria-labelledby`、`aria-controls` 指到的 id 存在於同一頁，`href="頁面.html#id"` 的頁面與 id 存在，id 在每頁唯一；`href` 只用 `#id`、`頁面.html[#id]`、`https:`、`mailto:`，以及 rel 為 icon、apple-touch-icon、manifest 的 `<link>` 指向 repo 內存在的根目錄檔（如 `/favicon.ico`） |
 | H5 | 圖片與影片放在 repo 根目錄，用相對路徑引用；`#bg` 的 `background-image` 與 `<video>` 的 `<source>` 一起新增 |
 | H6 | 顏色、字體、間距寫進 `:root` 的自訂屬性；取自 `AvalonLotus CIS` `tokens.json` 的值在同一行註解寫 token 名稱 |
 | H7 | 裝飾用 `<svg>` 加 `aria-hidden="true" focusable="false"` |
