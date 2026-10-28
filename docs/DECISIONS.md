@@ -16,13 +16,13 @@
 | 2026-10-29 01:20 | contact.html 兩顆 Get in touch 按鈕改 `mailto:Lien.Founder@AvalonLotus.com` | Code Review 第四輪 | `git revert fc98611` |
 | 2026-10-29 01:30 | 新增 H11 保護區 | 老闆常設指示：背景與光霧與 main 相同 | `git revert 58e734c` |
 | 2026-10-29 01:30 | 保護區外的 `--gold-pale`、`--gold-metal` 使用改 `var(--gold)` | `CIS/tokens.json` 第 21 行 `color.gold` #e9cf54 | `git revert 87d1d66` |
+| 2026-10-29 01:35 | 刪除 `:root` 未使用的 `--gold-pale`、`--gold-deep`、`--gold-metal` | 已無引用；畫面不變 | `git revert 8190f0d` |
 | 2026-10-29 01:30 | 介面字重 500、600、700 改 400 | `CIS/tokens.json` 第 39、44 行（400）；第 32、38 行（700 只用於標準字） | `git revert f539036` |
 
 ## 待老闆決定
 
 | 項目 | 性質 | 影響 | 預設 |
 |---|---|---|---|
-| `:root` 的 `--gold-pale` #fbf2c6、`--gold-deep` #cba43a、`--gold-metal` | 無 CIS 來源，位於 H11 保護區 | 保護區外已不再使用 | 保留 |
-| hero `data-dye="#B08CD6"` | 無 CIS 來源，位於 H11 保護區 | 首頁 hero 光霧顏色 | 保留 |
+| 其餘非 CIS 顏色：五頁 hero 的 `data-dye="#B08CD6"`（H11 保護區） | 無 CIS 來源；等待老闆決定 | hero 光霧顏色 | 改為 CIS `color.gold` #e9cf54 |
 | 創辦人區塊文字與職稱 | 對外公開內容 | about 頁 | 不顯示 |
 | favicon 只有暗色版 | 新增檔案 | 淺色瀏覽器主題可能不清楚 | 維持 |
