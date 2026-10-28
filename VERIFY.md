@@ -32,7 +32,7 @@ python3 -m playwright install chromium-headless-shell
 CHROME="$PWD/tools/chrome-fine.sh" bash check.sh main
 ```
 
-`tools/chrome-fine.sh` 啟動 chrome-headless-shell 並模擬滑鼠（primaryPointerType=4、primaryHoverType=2）；headless 預設的粗指標會讓 WebGL script 移除 `#fluid`，`page loads` 判定失敗。box 上的同一支檔案也在 `/workspace/site/chrome-fine.sh`。
+警告：未模擬滑鼠的 headless Chrome 會讓 WebGL script 移除 `#fluid`，`page loads` 失敗；用 `tools/chrome-fine.sh` 啟動。
 
 ### Windows Git Bash（未驗證）
 
