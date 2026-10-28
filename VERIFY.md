@@ -1,50 +1,61 @@
 # VERIFY
 
-這兩個指令不需要人工，就能證明網站從頭到尾可以正常運作。請在 repo 根目錄執行，並使用 `trial/vercel-layout` 或任何要送審的分支。
+在 repo 根目錄執行下列指令。
 
-## 1. 靜態自我檢查
+## 1. 靜態檢查
 
 ```
-python3 test_site.py          # Windows: python test_site.py
+python3 test_site.py
 ```
 
-檢查每個 `*.html`：id 與錨點、頁面連結、`href` 規則（H4）、語言配對、資產檔存在、CNAME、共用區塊（style、頁首、#menu、頁尾、#bg、#fluid、script）在五頁結構相同（H10）。
+| 結果 | 判定 |
+|---|---|
+| 沒有輸出，exit code 0 | 通過 |
+| 每行一個問題，exit code 1 | 失敗；依訊息修正後重跑 |
 
-通過：沒有任何輸出，exit code 0。失敗時每行一個問題，exit code 1。
+檢查項目：id 與錨點、頁面連結、`href` 規則（H4）、語言配對（H1）、資產檔、CNAME、五頁共用區塊結構（H10）、contact.html 兩顆 mailto 的 Get in touch 按鈕。
 
 ## 2. 完整檢查
 
+`check.sh` 需要 python3、node、curl、git 與 Chrome；用環境變數 `CHROME` 指定瀏覽器。
+
+| 環境 | 狀態 |
+|---|---|
+| box（Linux） | 已驗證 |
+| Windows Git Bash | 未驗證 |
+| Mac | 未驗證 |
+
+### box（Linux）
+
 ```
-bash check.sh main
+python3 -m playwright install chromium-headless-shell
+CHROME="$PWD/tools/chrome-fine.sh" bash check.sh main
 ```
 
-依序執行：test_site.py、JavaScript 語法（node --check）、shell 語法、相對 main 新增行的規則（金鑰、http://、inline style、!important、外部主機、M4 表格欄數），以及每頁在 headless Chrome 的實際載入（中英切換、標題跟著語言、沒有例外、WebGL2 畫布存在、無 JavaScript 時只顯示一種語言）。
+`tools/chrome-fine.sh` 啟動 chrome-headless-shell 並模擬滑鼠（primaryPointerType=4、primaryHoverType=2）；headless 預設的粗指標會讓 WebGL script 移除 `#fluid`，`page loads` 判定失敗。box 上的同一支檔案也在 `/workspace/site/chrome-fine.sh`。
 
-需要 python3、node、curl、git 與 Chrome；`CHROME` 環境變數指定瀏覽器路徑。
-
-### 在 box（Linux）
-
-```
-CHROME=/workspace/site/chrome-fine.sh bash check.sh main
-```
-
-`chrome-fine.sh` 是只存在 box 的包裝腳本：啟動 Playwright 的 chrome-headless-shell，並模擬滑鼠（primaryPointerType=4、primaryHoverType=2）。headless 預設沒有精細指標，WebGL 腳本會依設計移除 `#fluid`，所以不模擬就會失敗。
-
-### 在 Windows Git Bash
+### Windows Git Bash（未驗證）
 
 ```
 CHROME="/c/Program Files/Google/Chrome/Application/chrome.exe" bash check.sh main
 ```
 
-依路徑調整。注意：這台電腦負載高時不要執行。
+警告：電腦負載高時執行會讓系統停頓；先確認沒有其他重工作業。
 
-### 在 Mac
+### Mac（未驗證）
 
-不必設定，預設路徑就是 `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`。
+```
+bash check.sh main
+```
+
+預設 `CHROME` 為 `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`。
 
 ## 通過的定義
 
-- 每一列都是 `ok`，最後 exit code 0。
-- `warning:` 行不算失敗；那些是因為 main 的 index.html 已有同一行而略過的 H2 規則，仍要逐行看過。
-- 任何一列 `FAIL` 或 exit code 不是 0，都不算通過，不可送審或合併。
-- 輸出存檔（例如 `check-output.txt`），報告只寫結論與路徑。
+| 條件 | 判定 |
+|---|---|
+| 每一列 `ok` 且 exit code 0 | 通過 |
+| 任一列 `FAIL` 或 exit code 非 0 | 失敗；不送審、不合併 |
+| `warning:` 行 | 逐行檢查；不影響 exit code |
+
+輸出寫到檔案（例如 `check-output.txt`），報告只寫結論與路徑。
