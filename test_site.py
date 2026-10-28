@@ -208,6 +208,8 @@ def shared(pages):
         p.feed(open(page, encoding="utf-8").read())
         p.close()
         parsed[page] = [self_cta(page, e) for e in p.events]
+        if page == "contact.html":
+            swapped = sum(1 for e, n in zip(p.events, parsed[page]) if e != n)
     bad = []
     first = pages[0]
     for tag, mark in SHARED:
@@ -218,6 +220,8 @@ def shared(pages):
         for other in pages[1:]:
             if subtrees(parsed[other], tag, mark) != want:
                 bad.append(f"{other}: {name} differs from {first}")
+    if "contact.html" in parsed and swapped != 2:
+        bad.append(f"contact.html: {swapped} .btn-white Get in touch buttons use {MAIL}; set exactly 2 (header and footer)")
     for page in pages:
         for label, tag, mark in (("nav", "nav", None), ("#menu", "div", "menu"), ("footer", "footer", "site-footer")):
             trees = subtrees(parsed[page], tag, mark)
