@@ -20,6 +20,6 @@
 | 項目 | 預設 |
 |---|---|
 | 創辦人區塊文字與職稱 | 不顯示 |
-| `--gold-pale`、`--gold-deep`、`--gold-metal`、`#B08CD6` | 保留 |
+| hero `data-dye="#B08CD6"` | 改為 CIS `color.gold`，等待老闆決定 |
 | favicon 深淺兩套 | 維持暗色版 |
 | push | 不 push |
