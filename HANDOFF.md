@@ -6,7 +6,7 @@
 |---|---|
 | 驗證指令 | `VERIFY.md` |
 | 決策與待決定事項 | `docs/DECISIONS.md` |
-| 創辦人原文 | `docs/founder-source.md`（出生日期只留年份） |
+| 創辦人原文 | `docs/founder-source.md`（出生日期只留年份；第 6、18 行待老闆決定） |
 | 保護區規則 | `CODING_STANDARDS.md` H11 |
 
 ## 下一步

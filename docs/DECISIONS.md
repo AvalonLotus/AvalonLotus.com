@@ -14,10 +14,13 @@
 | 2026-10-28 15:39 | about 頁新增創辦人區塊；目前已從 about.html 移除 | 老闆在 Website bot 對話中直接提供；原文見 `docs/founder-source.md`（出生日期只留年份）；發布前待老闆最終確認 | 老闆確認文字後重新加入；`git revert be66e82` 還原區塊 |
 | 2026-10-29 01:20 | 創辦人區塊加 `data-l` 中英對照，`.founder-en` 改 15.5px | Code Review 第四輪 | `git revert 1165cc8` |
 | 2026-10-29 01:20 | contact.html 兩顆 Get in touch 按鈕改 `mailto:Lien.Founder@AvalonLotus.com` | Code Review 第四輪 | `git revert fc98611` |
-| 2026-10-29 01:30 | 新增 H11 保護區 | 老闆常設指示：背景與光霧與 main 相同 | `git revert 019c4aa` |
+| 2026-10-29 01:30 | 新增 H11 保護區 | 老闆常設指示：背景與光霧與 main 相同（Alice 轉述，未驗證） | `git revert 019c4aa` |
 | 2026-10-29 01:30 | 保護區外的 `--gold-pale`、`--gold-metal` 使用改 `var(--gold)` | `CIS/tokens.json` 第 21 行 `color.gold` #e9cf54 | `git revert 47cf4dd` |
 | 2026-10-29 01:35 | 刪除 `:root` 未使用的 `--gold-pale`、`--gold-deep`、`--gold-metal` | 已無引用；畫面不變 | `git revert 2bf75c9` |
 | 2026-10-29 01:30 | 介面字重 500、600、700 改 400 | `CIS/tokens.json` 第 39、44 行（400）；第 32、38 行（700 只用於標準字） | `git revert 86b1a1e` |
+| 2026-10-29 01:34 | `docs/founder-source.md` 留在 repo，出生日期只留年份，其他文字不動 | 老闆指示（Alice 轉述，未驗證） | `git revert 29dbcc2` |
+| 2026-10-29 01:34 | 改寫未 push 的歷史，自 f7a9cde（新 SHA 69974cd）起移除完整日期；改寫前備份已刪除 | 老闆授權（Alice 轉述，未驗證） | 無備份，無法復原 |
+| 2026-10-29 01:39 | `docs/founder-source.md` 第 6 行（狀態欄，舊措辭：仍寫 `#founder` 保持註解）與第 18 行（私人草稿註記）保持不動 | 老闆明確指示只改日期（Alice 轉述，未驗證） | 不適用；是否刪除待老闆決定 |
 
 ## 待老闆決定
 
@@ -26,3 +29,5 @@
 | 其餘非 CIS 顏色：五頁 hero 的 `data-dye="#B08CD6"`（H11 保護區） | 無 CIS 來源；等待老闆決定 | hero 光霧顏色 | 改為 CIS `color.gold` #e9cf54 |
 | 創辦人區塊文字與職稱 | 對外公開內容 | about 頁 | 不顯示 |
 | favicon 只有暗色版 | 新增檔案 | 淺色瀏覽器主題可能不清楚 | 維持 |
+| 「financial literacy／金融素養」文案：五頁第 7 行 meta description；index.html 第 438、465 行；disciplines.html 第 463 行 | main 原有文案 | 讓人以為是金融業務 | 改寫為新創、設計、科技與教育方向；目前老闆指示維持不變（Alice 轉述，未驗證） |
+| `docs/founder-source.md` 第 6、18 行是否刪除 | 舊措辭與私人草稿註記 | repo 內可見 | 不動 |
