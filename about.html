@@ -272,12 +272,6 @@ main > section, .site-footer { position: relative; z-index: 2; }
 .bento { position: relative; display: grid; grid-auto-flow: dense; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 20px); max-width: 1120px; margin: 0 auto; padding: 0; list-style: none; }
 .tile { display: flex; flex-direction: column; justify-content: space-between; gap: 22px; min-height: 220px; padding: clamp(24px, 2.6vw, 36px); background: var(--card); border: 1px solid var(--line); border-radius: 6px; transition: border-color .35s; }
 .tile:hover { border-color: var(--line-gold); }
-.founder-head { max-width: 1120px; margin: 0 auto clamp(40px, 5vw, 64px); }
-.founder-head h2 .founder-en { display: block; margin-top: 12px; font-size: 15.5px; color: var(--text-dim); }
-.founder .tile { min-height: 0; justify-content: flex-start; gap: 10px; }
-.founder .tile h3 { margin: 0; color: var(--gold); }
-.founder .tile p { font-size: 16px; color: var(--text); }
-.founder-foot { max-width: 1120px; margin: clamp(32px, 4vw, 48px) auto 0; }
 .tile-wide { grid-column: span 2; }
 .tile h3 { margin: 0 0 10px; font: 400 12.5px/1.4 var(--font-ui); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-invert); }
 .tile p { margin: 0; font-size: 14.5px; color: var(--text-dim); }
@@ -477,22 +471,6 @@ main > section, .site-footer { position: relative; z-index: 2; }
       </li>
     </ul>
   </section>
-
-  <!-- founder-hold: 創辦人區塊待老闆確認文字後再取消註解；原文見 docs/founder-source.md
-  <section id="founder" class="sect founder" aria-labelledby="founder-title">
-    <div class="founder-head">
-      <p class="eyebrow"><span data-l="en">Founder</span><span data-l="zh">創辦人</span></p>
-      <h2 id="founder-title"><span data-l="en">Ting-Lien Wu</span><span data-l="zh">吳定蓮<span class="founder-en" lang="en">Ting-Lien Wu</span></span></h2>
-      <p class="lead"><span data-l="en">Born in 1990 in Taiwan, Republic of China, with 13 years in the financial industry, specializing in asset planning and family financial advisory services for USD 3 million in assets.</span><span data-l="zh">1990 年生於中華民國台灣，從事金融業 13 年，專門服務 300 萬美金的資產規劃與家庭財商顧問服務。</span></p>
-    </div>
-    <ul class="bento">
-      <li class="tile"><h3><span data-l="en">Founder</span><span data-l="zh">創辦人</span></h3><p><span data-l="en">AvalonLotus International Pty., Ltd</span><span data-l="zh">亞蓮國際股份有限公司（<span lang="en">AvalonLotus</span>）</span></p></li>
-      <li class="tile"><h3><span data-l="en">CTO</span><span data-l="zh">技術長</span></h3><p><span data-l="en">Vansaintstone</span><span data-l="zh">元鴻財富顧問股份有限公司（<span lang="en">Vansaintstone</span>）</span></p></li>
-      <li class="tile"><h3><span data-l="en">Head of Taiwan</span><span data-l="zh">台灣區負責人</span></h3><p><span data-l="en">International Financial Planning Development Council (IFPDC)</span><span data-l="zh">國際金融規劃發展協會（<span lang="en">International Financial Planning Development Council</span>，<span lang="en">IFPDC</span>）</span></p></li>
-    </ul>
-    <p class="lead founder-foot"><span data-l="en">Dedicated to startup services, business transformation, global trusts and tax, and related work.</span><span data-l="zh">致力於服務新創服務／企業轉型／全球信託稅務等相關業務。</span></p>
-  </section>
-  -->
 
 </main>
 
