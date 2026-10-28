@@ -6,7 +6,7 @@
 |---|---|
 | 驗證指令 | `VERIFY.md` |
 | 決策與待決定事項 | `docs/DECISIONS.md` |
-| 創辦人原文 | `docs/founder-source.md` |
+| 創辦人原文 | repo 外：box `/workspace/site/private/founder-source.md` |
 | 保護區規則 | `CODING_STANDARDS.md` H11 |
 
 ## 下一步
@@ -19,7 +19,7 @@
 
 | 項目 | 預設 |
 |---|---|
-| 創辦人區塊文字與職稱 | 註解，不顯示 |
+| 創辦人區塊文字與職稱 | 不顯示 |
 | `--gold-pale`、`--gold-deep`、`--gold-metal`、`#B08CD6` | 保留 |
 | favicon 深淺兩套 | 維持暗色版 |
 | push | 不 push |
