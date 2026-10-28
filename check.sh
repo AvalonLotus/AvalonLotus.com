@@ -54,7 +54,7 @@ page_loads(){
   [ -x "$CHROME" ] || { echo "Google Chrome not found at $CHROME"; return 1; }
   local port chrome late=""
   mkdir -p "$TMP/www"
-  ln -s "$PWD" "$TMP/www/site"
+  ln -sfn "$PWD" "$TMP/www/site"
   cat > "$TMP/www/probe.html" <<'HTML'
 <!DOCTYPE html><meta charset="utf-8"><iframe id="f" src="site/PAGE_FILE" width="1400" height="900"></iframe><pre id="out"></pre>
 <script>
@@ -108,7 +108,7 @@ HTML
     curl -s --max-time 1 -o /dev/null "http://127.0.0.1:$port/probe.html" && break
     sleep 0.25
   done
-  "$CHROME" --headless=new --user-data-dir="$TMP/chrome" --enable-unsafe-swiftshader --use-angle=swiftshader \
+  "$CHROME" --headless=new --user-data-dir="$TMP/chrome" --enable-unsafe-swiftshader --use-angle=swiftshader --disable-extensions \
     --enable-logging=stderr --v=0 --window-size=1400,900 --virtual-time-budget=9000 --dump-dom \
     "http://127.0.0.1:$port/probe.html" > "$TMP/dom.html" 2> "$TMP/chrome.log" &
   chrome=$!
